@@ -62,20 +62,22 @@ public class WebDriverHello {
         assertTrue(driver.getCurrentUrl().equals("https://mail.yandex.ru/?uid=670590425&login=alinablazhko#inbox"));
     }
 
-//    @Test(description = "Delete all old emails from draft folder", dependsOnMethods = "loginTest")
-//    public void deleteOldEmailsFromDraft(){
-//        new WebDriverWait(driver, 20)
-//                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Черновики']")));
-//
-//        WebElement draftButton = driver.findElement(By.xpath("//span[text()='Черновики']"));
-//        draftButton.click();
-//
-//        List<WebElement> drafts = driver.findElements(By.cssSelector("div.ns-view-container-desc.mail-MessagesList.js-messages-list"));
-//
-//        System.out.println(drafts.size());
-//    }
+    @Test(description = "Delete all old emails from draft folder", dependsOnMethods = "loginTest")
+    public void deleteOldEmailsFromDraft(){
+        //Delete all old drafts
+        WebElement draftButton = driver.findElement(By.xpath("//span[text()='Черновики']"));
+        draftButton.click();
+//        new WebDriverWait(driver, 10)
+//                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span.checkbox_view")));
+        WebElement selectAll = driver.findElement(By.cssSelector("span.checkbox_view"));
+        selectAll.click();
 
-    @Test(description = "Create a new mail (fill addressee, subject and body fields) and save as draft", dependsOnMethods = "loginTest")
+        WebElement deleteButton = draftButton.findElement(By.xpath("//span[text()='Удалить']"));
+        deleteButton.click();
+
+    }
+
+    @Test(description = "Create a new mail (fill addressee, subject and body fields) and save as draft", dependsOnMethods = "deleteOldEmailsFromDraft")
     public void writingNewEmailTest(){
         // open new email
         WebElement emailButton = driver.findElement(By.cssSelector("a.mail-ComposeButton.js-left-col-toolbar-compose"));
@@ -100,6 +102,7 @@ public class WebDriverHello {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(By.
                         cssSelector("button.nb-button._nb-small-action-button._init.nb-with-s-right-gap.js-resolve")));
+
         WebElement closeButton = driver.findElement(By.cssSelector("button.nb-button._nb-small-action-button._init.nb-with-s-right-gap.js-resolve"));
         closeButton.click();
 
@@ -125,11 +128,13 @@ public class WebDriverHello {
 
         WebElement sendButton = driver.findElement(By.xpath("//span[text()='Отправить']"));
         sendButton.click();
-    }
 
-    @AfterClass
-    public void afterClass(){
-        driver.quit();
+
     }
+//
+//    @AfterClass
+//    public void afterClass(){
+//        driver.quit();
+//    }
 
 }
