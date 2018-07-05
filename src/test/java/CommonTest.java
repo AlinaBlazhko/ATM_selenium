@@ -81,12 +81,13 @@ public class CommonTest {
             }
         });
 
-        List<WebElement> check = driver.findElements(By.cssSelector("span._nb-checkbox-flag._nb-checkbox-normal-flag"));
+
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         WebElement deleteButton = driver.findElement(By.xpath("//span[text() = 'Удалить']"));
         WebElement checkAll = driver.findElement(By.cssSelector(".ns-view-toolbar-button-main-select-all input[type=checkbox]"));
 
-        if (!check.isEmpty()) {
+        if (!driver.findElement(By.xpath("//div[text()='В папке «Черновики» нет писем.']")).isDisplayed()) {
+            List<WebElement> check = driver.findElements(By.cssSelector("span._nb-checkbox-flag._nb-checkbox-normal-flag"));
             for (WebElement element : check) {
                 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 element.click();
@@ -212,11 +213,31 @@ public class CommonTest {
             driver.findElement(By.xpath("//span[text() = 'Черновики']")).click();
         }
 
+        until = new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver webDriver) {
+                try {
+                    WebElement refreshButton = driver.findElement(By.xpath("//span[@title='Проверить, есть ли новые письма (F9)']"));
+                    refreshButton.click();
+                } catch (StaleElementReferenceException e) {
+                    System.out.println("Select failed! Try again...");
+                    return false;
+                }
+                System.out.println("test found!");
+                return true;
+            }
+        });
+
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        assertTrue(driver.findElement(By.xpath("//div[text()='В папке «Черновики» нет писем.']")).isDisplayed());
+
+        // log out
+        driver.findElement(By.cssSelector("span#recipient-1.mail-User-Avatar.mail-User-Avatar_size_42.mail-User-Avatar_header.js-user-picture")).click();
+        driver.findElement(By.xpath("//a[text()='Выход']")).click();
     }
 
-    @AfterClass
-    public void afterClass() {
-        driver.quit();
-    }
+//    @AfterClass
+//    public void afterClass() {
+//        driver.quit();
+//    }
 }
 
