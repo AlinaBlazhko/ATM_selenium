@@ -1,9 +1,7 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -65,12 +63,10 @@ public class CommonTest {
 //        assertTrue((driver.getCurrentUrl()).equals("https://mail.yandex.ru/?uid=670590425&login=alinablazhko#inbox"));
 
         //Make sure that draft folder is empty
-        // refresh draft folder
         WebElement draftButton = driver.findElement(By.xpath("//span[text() = 'Черновики']"));
         draftButton.click();
 
         // refresh draft folder
-//        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         until = new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver webDriver) {
                 try {
@@ -86,9 +82,13 @@ public class CommonTest {
         });
 
         List<WebElement> check = driver.findElements(By.cssSelector("span._nb-checkbox-flag._nb-checkbox-normal-flag"));
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         WebElement deleteButton = driver.findElement(By.xpath("//span[text() = 'Удалить']"));
+        WebElement checkAll = driver.findElement(By.cssSelector(".ns-view-toolbar-button-main-select-all input[type=checkbox]"));
+
         if (!check.isEmpty()) {
             for (WebElement element : check) {
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 element.click();
                 deleteButton.click();
             }
@@ -98,7 +98,7 @@ public class CommonTest {
     }
 
     @Test(dependsOnMethods = "loginTest")
-    public void createEmailAndSaveAsDraft() {
+    public void createEmailAndSaveAsDraft() throws InterruptedException {
         //open new email
         WebElement createEmailButton = driver.findElement(By.cssSelector("span.mail-ComposeButton-Text"));
         createEmailButton.click();
@@ -132,9 +132,19 @@ public class CommonTest {
 
         // refresh draft folder
         final WebElement refreshButton = driver.findElement(By.xpath("//span[@title='Проверить, есть ли новые письма (F9)']"));
-        refreshButton.click();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        refreshButton.click();
+        until = new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver webDriver) {
+                try {
+                    refreshButton.click();
+                } catch (StaleElementReferenceException e) {
+                    System.out.println("Select failed! Try again...");
+                    return false;
+                }
+                System.out.println("test found!");
+                return true;
+            }
+        });
+
 
         //Assert that email appear in Draft folder
         new WebDriverWait(driver, 20)
@@ -165,7 +175,6 @@ public class CommonTest {
         Assert.assertTrue((driver.findElement(By.cssSelector("textarea.cke_source.cke_reset.cke_enable_context_menu.cke_editable.cke_editable_themed.cke_contents_ltr")).getAttribute("value")).equals(BODY + "\n"));
 
         //Send the mail
-
         final WebElement sendButton = driver.findElement(By.xpath("//span[text() = 'Отправить']"));
         until = new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver webDriver) {
@@ -198,8 +207,12 @@ public class CommonTest {
         });
         Assert.assertTrue(driver.findElement(By.cssSelector("span.mail-MessageSnippet-Item.mail-MessageSnippet-Item_sender.js-message-snippet-sender")).isDisplayed());
 
-    }
+        while (!driver.getCurrentUrl().equals("https://mail.yandex.ru/?uid=670590425&login=alinablazhko#draft")){
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+            driver.findElement(By.xpath("//span[text() = 'Черновики']")).click();
+        }
 
+    }
 
     @AfterClass
     public void afterClass() {
