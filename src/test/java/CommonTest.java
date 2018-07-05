@@ -4,11 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -58,10 +58,11 @@ public class CommonTest {
         WebElement submitButton = driver.findElement(By.xpath(".//button[@class='passport-Button']"));
         submitButton.click();
 
+        //assert that user sign in
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.mail-User-Name")));
-
-        assertTrue((driver.getCurrentUrl()).equals("https://mail.yandex.ru/?uid=670590425&login=alinablazhko#inbox"));
+        assertTrue(driver.findElement(By.cssSelector("div.mail-User-Name")).isDisplayed());
+//        assertTrue((driver.getCurrentUrl()).equals("https://mail.yandex.ru/?uid=670590425&login=alinablazhko#inbox"));
 
         //Make sure that draft folder is empty
         // refresh draft folder
@@ -85,7 +86,6 @@ public class CommonTest {
         });
 
         List<WebElement> check = driver.findElements(By.cssSelector("span._nb-checkbox-flag._nb-checkbox-normal-flag"));
-//        WebElement check = draftButton.findElement(By.cssSelector("div.ns-view-toolbar-button-main-select-all.ns-view-id-144.js-toolbar-button.mail-Toolbar-Item.mail-Toolbar-Item_main-select-all.is-disabled"));
         WebElement deleteButton = driver.findElement(By.xpath("//span[text() = 'Удалить']"));
         if (!check.isEmpty()) {
             for (WebElement element : check) {
@@ -132,25 +132,15 @@ public class CommonTest {
 
         // refresh draft folder
         final WebElement refreshButton = driver.findElement(By.xpath("//span[@title='Проверить, есть ли новые письма (F9)']"));
-        until = new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver webDriver) {
-                try {
-                    refreshButton.click();
-                } catch (StaleElementReferenceException e) {
-                    System.out.println("Select failed! Try again...");
-                    return false;
-                }
-                System.out.println("test found!");
-                return true;
-            }
-        });
+        refreshButton.click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        refreshButton.click();
 
         //Assert that email appear in Draft folder
-        new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Email for test']")));
+        new WebDriverWait(driver, 20)
+                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span.mail-MessageSnippet-Item.mail-MessageSnippet-Item_sender.js-message-snippet-sender")));
 
         final WebElement email = driver.findElement(By.xpath("//span[text()='Email for test']"));
-
         Assert.assertTrue(email.isDisplayed());
 
         // Verify the draft content (addressee, subject and body – should be the same as in 3).
@@ -167,8 +157,6 @@ public class CommonTest {
             }
         });
 
-//        new WebDriverWait(driver, 10)
-//                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span.mail-Bubble-Block_text")));
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
@@ -194,32 +182,28 @@ public class CommonTest {
 
         // Verify, that the mail disappeared from ‘Drafts’ folder
         // open draft folder
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        WebElement draftButton2 = driver.findElement(By.cssSelector("span.mail-NestedList-Item-Name.js-folders-item-name"));
-        WebDriverWait wait2 = new WebDriverWait(driver, 10);
-        wait2.until(ExpectedConditions.elementToBeClickable(By.cssSelector("span.mail-NestedList-Item-Name.js-folders-item-name")));
-        //        until = new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
-//            public Boolean apply(WebDriver webDriver) {
-//                try {
-//                    draftButton2.click();
-//                } catch (StaleElementReferenceException e) {
-//                    System.out.println("Select failed! Try again...");
-//                    return false;
-//                }
-//                System.out.println("test found!");
-//                return true;
-//            }
-//        });
-
-//        Assert.assertFalse(email.isDisplayed());
+        // Open "Входящие"
+        until = new WebDriverWait(driver, 5).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver webDriver) {
+                try {
+                    driver.findElement(By.xpath("//span[text()='Входящие']")).click();
+                } catch (StaleElementReferenceException e) {
+                    System.out.println("Select failed! Try again...");
+                    return false;
+                }
+                System.out.println("test found!");
+                return true;
+            }
+        });
+        Assert.assertTrue(driver.findElement(By.cssSelector("span.mail-MessageSnippet-Item.mail-MessageSnippet-Item_sender.js-message-snippet-sender")).isDisplayed());
 
     }
 
 
-//    @AfterClass
-//    public void afterClass() {
-//        driver.quit();
-//    }
+    @AfterClass
+    public void afterClass() {
+        driver.quit();
+    }
 }
 
