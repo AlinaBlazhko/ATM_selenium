@@ -193,6 +193,20 @@ public class EmailTest {
         });
 
         WebElement sentEmails = driver.findElement(By.xpath("//a[@title='Отправленные | одно письмо']"));
+        //click refresh button
+        new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver webDriver) {
+                try {
+                    driver.findElement(By.xpath("//span[@title='Проверить, есть ли новые письма (F9)']")).click();
+                } catch (StaleElementReferenceException e) {
+                    System.out.println("Select failed! Try again...");
+                    return false;
+                }
+                System.out.println("test found!");
+                return true;
+            }
+        });
+
         assertTrue(sentEmails.isDisplayed());
 
         //open Draft folder and verify that our email disappears
@@ -217,9 +231,9 @@ public class EmailTest {
         assertTrue(driver.findElement(By.xpath("//div[text()='В папке «Черновики» нет писем.']")).isDisplayed());
     }
 
-    @AfterClass
-    public void after(){
-        driver.quit();
-    }
+//    @AfterClass
+//    public void after(){
+//        driver.quit();
+//    }
 }
 
