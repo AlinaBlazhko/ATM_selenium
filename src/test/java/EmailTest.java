@@ -102,7 +102,7 @@ public class EmailTest {
         final WebElement refreshButton = driver.findElement(By.xpath("//span[@title='Проверить, есть ли новые письма (F9)']"));
 
         //click refresh button
-        new WebDriverWait(driver, 20).until(new ExpectedCondition<Boolean>() {
+        new WebDriverWait(driver, 40).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver webDriver) {
                 try {
                     driver.findElement(By.xpath("//span[@title='Проверить, есть ли новые письма (F9)']")).click();
@@ -119,6 +119,24 @@ public class EmailTest {
         assertTrue(drafts.isDisplayed());
 
         //open our email in draft
+        //click refresh button
+        new WebDriverWait(driver, 30).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver webDriver) {
+                try {
+                    driver.findElement(By.xpath("//span[@title='Проверить, есть ли новые письма (F9)']")).click();
+                } catch (StaleElementReferenceException e) {
+                    System.out.println("Select failed! Try again...");
+                    return false;
+                }
+                System.out.println("test found!");
+                return true;
+            }
+        });
+
+
+        //verify that fields "Кому", "Тема" and "Текст письма" is correct
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        assertTrue((driver.findElement(By.xpath("//span[@title='alinablazhko@yandex.ru']"))).isDisplayed());
         final WebElement email = driver.findElement(By.cssSelector("span.mail-MessageSnippet-Item.mail-MessageSnippet-Item_subject"));
         new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver webDriver) {
@@ -133,13 +151,10 @@ public class EmailTest {
             }
         });
 
-        //verify that fields "Кому", "Тема" and "Текст письма" is correct
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        assertTrue((driver.findElement(By.xpath("//span[@data-yabble-email='alinaBlazhko@yandex.ru']"))).isDisplayed());
         assertTrue(driver.findElement(By.cssSelector("input.mail-Compose-Field-Input-Controller.js-compose-field.js-editor-tabfocus-prev")).getAttribute("Value")
                 .equals("Email for test"));
-//        System.out.println(driver.findElement(By.id("cke_56_contents_wrap")).getText());
-//        assertTrue((driver.findElement(By.cssSelector("div.cke_contents_wrap"))).getText().equals(BODY));
+        System.out.println(driver.findElement(By.cssSelector("textarea.cke_source.cke_reset.cke_enable_context_menu.cke_editable.cke_editable_themed.cke_contents_ltr")).getAttribute("value"));
+        assertTrue(((driver.findElement(By.cssSelector("textarea.cke_source.cke_reset.cke_enable_context_menu.cke_editable.cke_editable_themed.cke_contents_ltr"))).getAttribute("value")).equals("Hello Mr. Smith!\n"));
 
         // send email and verify that email appears in sent folder
         List<WebElement> sendButtons = driver.findElements(By.xpath("//span[text() = 'Отправить']"));
@@ -150,7 +165,7 @@ public class EmailTest {
         final WebElement sentFolder = driver.findElement(By.xpath("//span[text()='Отправленные']"));
 
         //open Sent folder and verify that our email appears
-        new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
+        new WebDriverWait(driver, 30).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver webDriver) {
                 try {
                     sentFolder.click();
@@ -181,7 +196,7 @@ public class EmailTest {
         assertTrue(sentEmails.isDisplayed());
 
         //open Draft folder and verify that our email disappears
-        new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
+        new WebDriverWait(driver, 30).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver webDriver) {
                 try {
                     driver.findElement(By.xpath("//span[@title='Проверить, есть ли новые письма (F9)']")).click();
@@ -198,7 +213,7 @@ public class EmailTest {
             Thread.sleep(1000);
             driver.findElement(By.xpath("//span[text()='Черновики']")).click();
         }
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         assertTrue(driver.findElement(By.xpath("//div[text()='В папке «Черновики» нет писем.']")).isDisplayed());
     }
 
