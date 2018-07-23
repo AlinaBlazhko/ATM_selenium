@@ -7,9 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.concurrent.TimeUnit;
 
-import po.Header;
-import po.HomePage;
-import po.LoginPage;
+import po.*;
 
 /**
  * Created by X240 on 7/22/2018.
@@ -32,14 +30,22 @@ public class PageObjectTest {
         LoginPage loginPage = homePage.clickOnButtonAuthorization();
         loginPage.login();
         Assert.assertTrue(driver.getTitle().contains("Входящие — Яндекс.Почта"));
-        Header header = new Header(driver);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        header.openNewEmail();
+
 //        driver.findElement(By.cssSelector(".mail-Toolbar-Item_main-deselect-all span.checkbox_view")).click();
     }
 
-    @AfterClass(description = "close browser")
-    public void closeBrowser(){
-        driver.quit();
+    @Test(description = "write new email", dependsOnMethods = "loginInemailBox")
+    public void writeNewEmailTest(){
+        Header header = new Header(driver);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        NewEmailPage newEmailPage = header.openNewEmail();
+        newEmailPage.writeEmail();
+        PopupPage popupPage = newEmailPage.closeEmail();
+        popupPage.closeAndSaveEmail();
     }
+
+//    @AfterClass(description = "close browser")
+//    public void closeBrowser(){
+//        driver.quit();
+//    }
 }

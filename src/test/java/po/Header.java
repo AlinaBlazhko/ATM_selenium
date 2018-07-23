@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class Header extends AbstractPage{
 
-    private By writeNewEmailButton = By.className("a.mail-ComposeButton.js-left-col-toolbar-compose");
+    private By writeNewEmailButton = By.cssSelector("span.mail-ComposeButton-Text");
 
     public Header(WebDriver driver) {
         super(driver);
