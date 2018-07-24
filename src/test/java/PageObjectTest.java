@@ -2,7 +2,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +14,7 @@ import po.*;
 public class PageObjectTest {
 
     private WebDriver driver;
+//    FoldersPage foldersPage = new FoldersPage(driver);
 
     @BeforeClass(description = "start browser")
     public void iniDriver(){
@@ -38,11 +38,35 @@ public class PageObjectTest {
     public void writeNewEmailTest(){
         Header header = new Header(driver);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        NewEmailPage newEmailPage = header.openNewEmail();
+        EmailPage newEmailPage = header.openNewEmail();
         newEmailPage.writeEmail();
         PopupPage popupPage = newEmailPage.closeEmail();
         popupPage.closeAndSaveEmail();
+        FoldersPage foldersPage = new FoldersPage(driver);
+        foldersPage.openDrafts();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        header.refreshPage();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".mail-NestedList-Item_current span.mail-NestedList-Item-Info-Extras")).getText().equals("1"));
     }
+
+    @Test(description = "send email from draft and verify that email is sent", dependsOnMethods = "writeNewEmailTest")
+    public void sentEmailAndVerifyThatEmailIsSent(){
+        CenterPart centerPart = new CenterPart(driver);
+        EmailPage newEmailPage = centerPart.openEmail();
+        Assert.assertTrue(newEmailPage.getTo().equals("alinaBlazhko"));
+        Assert.assertTrue(newEmailPage.getSubject().equals("Email for test"));
+        Assert.assertTrue(newEmailPage.getLetter().equals("Hello Mr. Smith!"));
+
+        newEmailPage.sentEmail();
+        FoldersPage foldersPage = new FoldersPage(driver);
+        centerPart = foldersPage.openSents();
+        Header header = new Header(driver);
+        header.refreshPage();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        Assert.assertTrue(driver.findElement(By.cssSelector(".mail-NestedList-Item_current span.mail-NestedList-Item-Info-Extras")).getText().equals("1"));
+    }
+
 
 //    @AfterClass(description = "close browser")
 //    public void closeBrowser(){

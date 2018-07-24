@@ -9,13 +9,19 @@ import org.openqa.selenium.WebDriver;
 public class Header extends AbstractPage{
 
     private By writeNewEmailButton = By.cssSelector("span.mail-ComposeButton-Text");
+    private By refreshButton = By.cssSelector("span[title='Проверить, есть ли новые письма (F9)']");
 
     public Header(WebDriver driver) {
         super(driver);
     }
 
-    public NewEmailPage openNewEmail(){
+    public EmailPage openNewEmail(){
         driver.findElement(writeNewEmailButton).click();
-        return new NewEmailPage(driver);
+        return new EmailPage(driver);
+    }
+
+    public void refreshPage(){
+        waitForElementVisibility(refreshButton);
+        driver.findElement(refreshButton).click();
     }
 }

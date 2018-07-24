@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by X240 on 7/22/2018.
  */
-public class NewEmailPage extends AbstractPage{
+public class EmailPage extends AbstractPage{
 
     private static final String SUBJECT = "Email for test";
     private static final String BODY = "Hello Mr. Smith!";
@@ -14,8 +14,9 @@ public class NewEmailPage extends AbstractPage{
     private By subject = By.cssSelector("input.mail-Compose-Field-Input-Controller.js-compose-field.js-editor-tabfocus-prev");
     private By letter = By.cssSelector("textarea.cke_source.cke_reset.cke_enable_context_menu.cke_editable.cke_editable_themed.cke_contents_ltr");
     private By closeButton = By.xpath("//div[@title='Закрыть']");
+    private By sentButton = By.xpath("//span[text() = 'Отправить']");
 
-    public NewEmailPage(WebDriver driver) {
+    public EmailPage(WebDriver driver) {
         super(driver);
     }
     
@@ -28,6 +29,26 @@ public class NewEmailPage extends AbstractPage{
     public PopupPage closeEmail(){
         driver.findElement(closeButton).click();
         return new PopupPage(driver);
+    }
+
+    public void sentEmail(){
+        waitForElementVisibility(sentButton);
+        driver.findElement(sentButton).click();
+    }
+
+    public String getTo() {
+        waitForElementVisibility(to);
+        return driver.findElement(to).getAttribute("value");
+    }
+
+    public String getSubject() {
+        waitForElementVisibility(subject);
+        return driver.findElement(subject).getAttribute("value");
+    }
+
+    public String getLetter() {
+        waitForElementVisibility(letter);
+        return driver.findElement(letter).getAttribute("value");
     }
 }
 
