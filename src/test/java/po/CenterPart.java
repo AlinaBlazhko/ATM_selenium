@@ -8,7 +8,8 @@ import org.openqa.selenium.WebDriver;
  */
 public class CenterPart extends AbstractPage{
     private By email = By.cssSelector("span.js-message-snippet-body");
-    private By selectAll = By.cssSelector("div[data-key='view=toolbar-button-main-select-all&current_folder=6&sort_type=date&layout=messages&id=main-select-all']");
+    private By selectAll = By.cssSelector("\n" +
+            "div.ns-view-toolbar-button-main-select-all.ns-view-id-221.js-toolbar-button.mail-Toolbar-Item.mail-Toolbar-Item_main-select-all.is-disabled");
 
     public CenterPart(WebDriver driver) {
         super(driver);
@@ -20,7 +21,6 @@ public class CenterPart extends AbstractPage{
         return new EmailPage(driver);
     }
     public void selectAll(){
-        driver.findElement(selectAll).click();
         driver.findElement(selectAll).click();
     }
 }

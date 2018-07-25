@@ -18,7 +18,7 @@ public class FoldersPage extends AbstractPage{
     }
 
     public void openDrafts(){
-        waitForElementVisibility(drafts);
+//        waitForElementVisibility(drafts);
         driver.findElement(drafts).click();
     }
 

@@ -21,6 +21,7 @@ public class EmailPage extends AbstractPage{
     }
     
     public void writeEmail(){
+        waitForElementVisibility(sentButton);
         driver.findElement(to).sendKeys("alinaBlazhko@yandex.ru");
         driver.findElement(subject).sendKeys(SUBJECT);
         driver.findElement(letter).sendKeys(BODY);
