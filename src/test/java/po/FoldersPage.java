@@ -1,9 +1,12 @@
 package po;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Created by X240 on 7/22/2018.
@@ -18,8 +21,20 @@ public class FoldersPage extends AbstractPage{
     }
 
     public void openDrafts(){
+        new WebDriverWait(driver, 40).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver webDriver) {
+                try {
+                    driver.findElement(drafts).click();
+                } catch (StaleElementReferenceException e) {
+                    System.out.println("Select failed! Try again...");
+                    return false;
+                }
+                System.out.println("test found!");
+                return true;
+            }
+        });
 //        waitForElementVisibility(drafts);
-        driver.findElement(drafts).click();
+//        driver.findElement(drafts).click();
     }
 
     public CenterPart openSents(){

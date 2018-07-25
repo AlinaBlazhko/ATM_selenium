@@ -10,6 +10,7 @@ public class CenterPart extends AbstractPage{
     private By email = By.cssSelector("span.js-message-snippet-body");
     private By selectAll = By.cssSelector("\n" +
             "div.ns-view-toolbar-button-main-select-all.ns-view-id-221.js-toolbar-button.mail-Toolbar-Item.mail-Toolbar-Item_main-select-all.is-disabled");
+    private By noEmailInFolderRow =By.xpath("//div[text()='В папке «Черновики» нет писем.']");
 
     public CenterPart(WebDriver driver) {
         super(driver);
@@ -20,7 +21,9 @@ public class CenterPart extends AbstractPage{
         driver.findElement(email).click();
         return new EmailPage(driver);
     }
-    public void selectAll(){
-        driver.findElement(selectAll).click();
+
+    public boolean getNoEmailInFolderRow(){
+        waitForElementVisibility(noEmailInFolderRow);
+        return driver.findElement(noEmailInFolderRow).isDisplayed();
     }
 }

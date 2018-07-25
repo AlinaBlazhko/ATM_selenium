@@ -12,7 +12,7 @@ public class EmailPage extends AbstractPage{
     private static final String BODY = "Hello Mr. Smith!";
     private By to = By.cssSelector("div.js-compose-field.mail-Bubbles");
     private By subject = By.cssSelector("input.mail-Compose-Field-Input-Controller.js-compose-field.js-editor-tabfocus-prev");
-    private By letter = By.cssSelector("textarea.cke_source.cke_reset.cke_enable_context_menu.cke_editable.cke_editable_themed.cke_contents_ltr");
+    private By letter = By.cssSelector("textarea.cke_editable_themed.cke_contents_ltr");
     private By closeButton = By.xpath("//div[@title='Закрыть']");
     private By sentButton = By.xpath("//span[text() = 'Отправить']");
 
@@ -38,18 +38,18 @@ public class EmailPage extends AbstractPage{
     }
 
     public String getTo() {
-        waitForElementVisibility(to);
-        return driver.findElement(to).getAttribute("value");
+        waitForElementVisibility(By.cssSelector("span.mail-Bubble-Block_text"));
+        return driver.findElement(By.cssSelector("span.mail-Bubble-Block_text")).getText();
     }
 
     public String getSubject() {
-        waitForElementVisibility(subject);
-        return driver.findElement(subject).getAttribute("value");
+        waitForElementVisibility(By.cssSelector("input.js-compose-field.js-editor-tabfocus-prev"));
+        return driver.findElement(By.cssSelector("input.js-compose-field.js-editor-tabfocus-prev")).getAttribute("value");
     }
 
     public String getLetter() {
-        waitForElementVisibility(letter);
-        return driver.findElement(letter).getAttribute("value");
+        waitForElementVisibility(By.cssSelector("textarea.cke_editable_themed.cke_contents_ltr"));
+        return driver.findElement(By.cssSelector("textarea.cke_editable_themed.cke_contents_ltr")).getAttribute("value");
     }
 }
 
