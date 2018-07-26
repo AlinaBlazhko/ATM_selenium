@@ -75,7 +75,7 @@ public class PageObjectTest {
         assertTrue(foldersPage.getCountOfEmailsInSentFolder().isDisplayed());
     }
 
-    @Test(description = "clear Sent folder for next test", dependsOnMethods = "sendingEmailFromDraft")
+    @AfterClass(description = "clear Sent folder for next test")
     public void clearSentFolder(){
         header.refreshPage();
         centerPart.deleteEmail();
