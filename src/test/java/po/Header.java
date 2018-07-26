@@ -27,19 +27,20 @@ public class Header extends AbstractPage{
     }
 
     public void refreshPage(){
-        new WebDriverWait(driver, 40).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver webDriver) {
-                try {
-                    driver.findElement(refreshButton).click();
-                } catch (StaleElementReferenceException e) {
-                    System.out.println("Select failed! Try again...");
-                    return false;
-                }
-                System.out.println("test found!");
-                return true;
-            }
-        });
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-//        driver.findElement(refreshButton).click();
+        waitForElementPresents(refreshButton);
+//        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+//        new WebDriverWait(driver, 40).until(new ExpectedCondition<Boolean>() {
+//            public Boolean apply(WebDriver webDriver) {
+//                try {
+//                    driver.findElement(refreshButton).click();
+//                } catch (StaleElementReferenceException e) {
+//                    System.out.println("Select failed! Try again...");
+//                    return false;
+//                }
+//                System.out.println("test found!");
+//                return true;
+//            }
+//        });
+//        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
     }
 }

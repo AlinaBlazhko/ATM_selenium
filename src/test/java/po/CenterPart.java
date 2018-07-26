@@ -8,9 +8,9 @@ import org.openqa.selenium.WebDriver;
  */
 public class CenterPart extends AbstractPage{
     private By email = By.cssSelector("span.js-message-snippet-body");
-    private By selectAll = By.cssSelector("\n" +
-            "div.ns-view-toolbar-button-main-select-all.ns-view-id-221.js-toolbar-button.mail-Toolbar-Item.mail-Toolbar-Item_main-select-all.is-disabled");
     private By noEmailInFolderRow =By.xpath("//div[text()='В папке «Черновики» нет писем.']");
+    private By selectEmail = By.cssSelector("label.nb-checkbox._nb-small-checkbox-checkbox._init");
+    private By deleteButton = By.cssSelector("div[title='Удалить (Delete)']");
 
     public CenterPart(WebDriver driver) {
         super(driver);
@@ -25,5 +25,11 @@ public class CenterPart extends AbstractPage{
     public boolean getNoEmailInFolderRow(){
         waitForElementVisibility(noEmailInFolderRow);
         return driver.findElement(noEmailInFolderRow).isDisplayed();
+    }
+
+    public void deleteEmail(){
+        waitForElementVisibility(selectEmail);
+        driver.findElement(selectEmail).click();
+        driver.findElement(deleteButton).click();
     }
 }

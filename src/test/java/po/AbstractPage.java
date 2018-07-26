@@ -2,7 +2,6 @@ package po;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -11,17 +10,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class AbstractPage {
     protected WebDriver driver;
-    private static final int WAIT_FOR_ELEMANT_SEC = 15;
+    private static final int WAIT_FOR_ELEMENT_SEC = 15;
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
     }
 
     public void waitForElementVisibility(By locator){
-        new WebDriverWait(driver, WAIT_FOR_ELEMANT_SEC).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+        new WebDriverWait(driver, WAIT_FOR_ELEMENT_SEC)
+                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
     public void waitForElementPresents(By locator){
-        new WebDriverWait(driver, WAIT_FOR_ELEMANT_SEC).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+        new WebDriverWait(driver, WAIT_FOR_ELEMENT_SEC)
+                .until(ExpectedConditions.elementToBeClickable(locator));
     }
 }

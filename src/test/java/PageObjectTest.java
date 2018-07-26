@@ -1,8 +1,8 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import po.*;
 
@@ -16,6 +16,14 @@ import static org.testng.Assert.assertTrue;
 public class PageObjectTest {
 
     private WebDriver driver;
+    private HomePage homePage;
+    private LoginPage loginPage;
+    private PopupPage popupPage;
+    private Header header;
+    private EmailPage newEmailPage;
+    private CenterPart centerPart;
+    private FoldersPage foldersPage;
+
 
     @BeforeClass(description = "start browser")
     public void iniDriver() {
@@ -24,73 +32,59 @@ public class PageObjectTest {
         driver.manage().window().maximize();
     }
 
-    @Test(description = "perform login")
-    public void loginInemailBox() {
-        HomePage homePage = new HomePage(driver);
+    @Test(description = "perform login and verify that login successful")
+    public void loginInEmailBox() {
+        homePage = new HomePage(driver);
         homePage.open();
-        LoginPage loginPage = homePage.clickOnButtonAuthorization();
+        loginPage = homePage.clickOnButtonAuthorization();
         loginPage.login();
         assertTrue(driver.getTitle().contains("Входящие — Яндекс.Почта"));
     }
 
-    @Test(description = "write new email", dependsOnMethods = "loginInemailBox")
+    @Test(description = "write new email and save as draft", dependsOnMethods = "loginInEmailBox")
     public void writeNewEmailTest() {
-        Header header = new Header(driver);
-        driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-        EmailPage newEmailPage = header.openNewEmail();
+        header = new Header(driver);
+        newEmailPage = header.openNewEmail();
         newEmailPage.writeEmail();
-        PopupPage popupPage = newEmailPage.closeEmail();
+        newEmailPage.closeEmail();
+        popupPage = new PopupPage(driver);
         popupPage.closeAndSaveEmail();
-        FoldersPage foldersPage = new FoldersPage(driver);
-        foldersPage.openDrafts();
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-        header.refreshPage();
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-        header.refreshPage();
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 
-        assertTrue(driver.findElement(By.cssSelector(".mail-NestedList-Item_current span.mail-NestedList-Item-Info-Extras")).getText().equals("1"));
+        // open draft folder
+        foldersPage = new FoldersPage(driver);
+        foldersPage.openDrafts();
+        header.refreshPage();
+        assertTrue(foldersPage.getCountOfEmailsInDraftFolder().isDisplayed());
     }
 
-    @Test(description = "send email from draft and verify that email is sent", dependsOnMethods = "writeNewEmailTest")
+    @Test(description = "verify email's content", dependsOnMethods = "writeNewEmailTest")
     public void sentEmailAndVerifyThatEmailIsSent() {
-        CenterPart centerPart = new CenterPart(driver);
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-        EmailPage newEmailPage = centerPart.openEmail();
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-
-        assertTrue(newEmailPage.getTo().equals("alinaBlazhko"));
+        centerPart = new CenterPart(driver);
+        newEmailPage = centerPart.openEmail();
+        assertTrue(newEmailPage.getTo().equals("alinaBlazhko") || newEmailPage.getTo().equals("alinaBlazhko@yandex.ru"));
         assertTrue(newEmailPage.getSubject().equals("Email for test"));
         assertTrue(newEmailPage.getLetter().equals("Hello Mr. Smith!\n"));
+    }
 
+
+    @Test(description = "send email and verify that email appear in Sent Folder", dependsOnMethods = "sentEmailAndVerifyThatEmailIsSent")
+    public void sendingEmailFromDraft(){
         newEmailPage.sentEmail();
-        FoldersPage foldersPage = new FoldersPage(driver);
         foldersPage.openSents();
-        Header header = new Header(driver);
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
         header.refreshPage();
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-        assertTrue(driver.findElement(By.cssSelector("a[title='Отправленные | одно письмо']")).isDisplayed());
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+        assertTrue(foldersPage.getCountOfEmailsInSentFolder().isDisplayed());
+    }
 
-        driver.findElement(By.cssSelector("label.nb-checkbox._nb-small-checkbox-checkbox._init")).click();
-        driver.findElement(By.cssSelector("div[title='Удалить (Delete)']")).click();
-
-//        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-//        header.refreshPage();
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-
+    @Test(description = "clear Sent folder for next test", dependsOnMethods = "sendingEmailFromDraft")
+    public void clearSentFolder(){
+        header.refreshPage();
+        centerPart.deleteEmail();
         foldersPage.openDrafts();
-
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
         header.refreshPage();
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-
         assertTrue(centerPart.getNoEmailInFolderRow());
     }
 
-
-//    @AfterClass(description = "close browser")
+//    @AfterClass(description = "delete email from Sent folder and close browser")
 //    public void closeBrowser(){
 //        driver.quit();
 //    }
