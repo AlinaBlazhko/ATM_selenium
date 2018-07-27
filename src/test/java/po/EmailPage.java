@@ -43,13 +43,13 @@ public class EmailPage extends AbstractPage{
     }
 
     public String getSubject() {
-        waitForElementVisibility(By.cssSelector("input.js-compose-field.js-editor-tabfocus-prev"));
-        return driver.findElement(By.cssSelector("input.js-compose-field.js-editor-tabfocus-prev")).getAttribute("value");
+        waitForElementVisibility(subject);
+        return driver.findElement(subject).getAttribute("value");
     }
 
     public String getLetter() {
-        waitForElementVisibility(By.cssSelector("textarea.cke_editable_themed.cke_contents_ltr"));
-        return driver.findElement(By.cssSelector("textarea.cke_editable_themed.cke_contents_ltr")).getAttribute("value");
+        waitForElementVisibility(letter);
+        return driver.findElement(letter).getAttribute("value");
     }
 }
 

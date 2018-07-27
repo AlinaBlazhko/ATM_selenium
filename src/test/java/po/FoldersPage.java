@@ -37,8 +37,9 @@ public class FoldersPage extends AbstractPage{
         });
     }
 
-    public WebElement getCountOfEmailsInSentFolder(){
-        return driver.findElement(countOfEmailsInDraftFolder);
+    public boolean getCountOfEmailsInSentFolder(){
+        waitForElementVisibility(countOfEmailsInDraftFolder);
+        return driver.findElement(countOfEmailsInDraftFolder).isDisplayed();
     }
 
     public CenterPart openSents(){
@@ -48,9 +49,9 @@ public class FoldersPage extends AbstractPage{
         return new CenterPart(driver);
     }
 
-    public WebElement getCountOfEmailsInDraftFolder(){
+    public boolean getCountOfEmailsInDraftFolder(){
         waitForElementVisibility(countOfEmailsInDraftFolder);
-        return driver.findElement(countOfEmailsInDraftFolder);
+        return driver.findElement(countOfEmailsInDraftFolder).isDisplayed();
     }
 
 }

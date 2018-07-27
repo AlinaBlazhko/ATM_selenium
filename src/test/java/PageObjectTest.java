@@ -8,6 +8,7 @@ import po.*;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -54,7 +55,7 @@ public class PageObjectTest {
         foldersPage = new FoldersPage(driver);
         foldersPage.openDrafts();
         header.refreshPage();
-        assertTrue(foldersPage.getCountOfEmailsInDraftFolder().isDisplayed());
+        assertTrue(foldersPage.getCountOfEmailsInDraftFolder());
     }
 
     @Test(description = "verify email's content", dependsOnMethods = "writeNewEmailTest")
@@ -62,8 +63,8 @@ public class PageObjectTest {
         centerPart = new CenterPart(driver);
         newEmailPage = centerPart.openEmail();
         assertTrue(newEmailPage.getTo().equals("alinaBlazhko") || newEmailPage.getTo().equals("alinaBlazhko@yandex.ru"));
-        assertTrue(newEmailPage.getSubject().equals("Email for test"));
-        assertTrue(newEmailPage.getLetter().equals("Hello Mr. Smith!\n"));
+        assertEquals(newEmailPage.getSubject(), "Email for test");
+        assertEquals(newEmailPage.getLetter(), "Hello Mr. Smith!\n");
     }
 
 
@@ -72,20 +73,14 @@ public class PageObjectTest {
         newEmailPage.sentEmail();
         foldersPage.openSents();
         header.refreshPage();
-        assertTrue(foldersPage.getCountOfEmailsInSentFolder().isDisplayed());
+        assertTrue(foldersPage.getCountOfEmailsInSentFolder());
     }
 
     @AfterClass(description = "clear Sent folder for next test")
     public void clearSentFolder(){
         header.refreshPage();
         centerPart.deleteEmail();
-        foldersPage.openDrafts();
-        header.refreshPage();
-        assertTrue(centerPart.getNoEmailInFolderRow());
+        driver.quit();
     }
 
-//    @AfterClass(description = "delete email from Sent folder and close browser")
-//    public void closeBrowser(){
-//        driver.quit();
-//    }
 }

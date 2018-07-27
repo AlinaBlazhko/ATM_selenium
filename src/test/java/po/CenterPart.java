@@ -22,11 +22,6 @@ public class CenterPart extends AbstractPage{
         return new EmailPage(driver);
     }
 
-    public boolean getNoEmailInFolderRow(){
-        waitForElementVisibility(noEmailInFolderRow);
-        return driver.findElement(noEmailInFolderRow).isDisplayed();
-    }
-
     public void deleteEmail(){
         waitForElementVisibility(selectEmail);
         driver.findElement(selectEmail).click();
