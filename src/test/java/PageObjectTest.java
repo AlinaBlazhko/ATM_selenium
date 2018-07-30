@@ -15,8 +15,6 @@ import static org.testng.Assert.assertTrue;
  * Created by X240 on 7/22/2018.
  */
 public class PageObjectTest {
-
-    private WebDriver driver;
     private HomePage homePage;
     private LoginPage loginPage;
     private PopupPage popupPage;
@@ -25,34 +23,26 @@ public class PageObjectTest {
     private CenterPart centerPart;
     private FoldersPage foldersPage;
 
-
-    @BeforeClass(description = "start browser")
-    public void iniDriver() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-    }
-
     @Test(description = "perform login and verify that login successful")
     public void loginInEmailBox() {
-        homePage = new HomePage(driver);
+        homePage = new HomePage();
         homePage.open();
         loginPage = homePage.clickOnButtonAuthorization();
         loginPage.login();
-        assertTrue(driver.getTitle().contains("Входящие — Яндекс.Почта"));
+//        assertTrue(driver.getTitle().contains("Входящие — Яндекс.Почта"));
     }
 
     @Test(description = "write new email and save as draft", dependsOnMethods = "loginInEmailBox")
     public void writeNewEmailTest() {
-        header = new Header(driver);
+        header = new Header();
         newEmailPage = header.openNewEmail();
         newEmailPage.writeEmail();
         newEmailPage.closeEmail();
-        popupPage = new PopupPage(driver);
+        popupPage = new PopupPage();
         popupPage.closeAndSaveEmail();
 
         // open draft folder
-        foldersPage = new FoldersPage(driver);
+        foldersPage = new FoldersPage();
         foldersPage.openDrafts();
         header.refreshPage();
         assertTrue(foldersPage.getCountOfEmailsInDraftFolder());
@@ -60,7 +50,7 @@ public class PageObjectTest {
 
     @Test(description = "verify email's content", dependsOnMethods = "writeNewEmailTest")
     public void sentEmailAndVerifyThatEmailIsSent() {
-        centerPart = new CenterPart(driver);
+        centerPart = new CenterPart();
         newEmailPage = centerPart.openEmail();
         assertTrue(newEmailPage.getTo().equals("alinaBlazhko") || newEmailPage.getTo().equals("alinaBlazhko@yandex.ru"));
         assertEquals(newEmailPage.getSubject(), "Email for test");
@@ -80,7 +70,7 @@ public class PageObjectTest {
     public void clearSentFolder(){
         header.refreshPage();
         centerPart.deleteEmail();
-        driver.quit();
+//        drive.quit();
     }
 
 }

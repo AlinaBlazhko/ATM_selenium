@@ -12,18 +12,26 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by X240 on 7/22/2018.
  */
-public class Header extends AbstractPage{
+public class Header extends AbstractPage {
 
     private By writeNewEmailButton = By.cssSelector("span.mail-ComposeButton-Text");
     private By refreshButton = By.cssSelector("span[title='Проверить, есть ли новые письма (F9)']");
+    private By serviceMenuButton = By.cssSelector("span.nb");
 
-    public Header(WebDriver driver) {
-        super(driver);
-    }
+//    public Header(WebDriver drive) {
+//        super(drive);
+//    }
 
     public EmailPage openNewEmail(){
+        waitForElementVisibility(writeNewEmailButton);
         driver.findElement(writeNewEmailButton).click();
-        return new EmailPage(driver);
+        return new EmailPage();
+    }
+
+    public ServiceMenuPage openServiceMenu(){
+        waitForElementVisibility(serviceMenuButton);
+        driver.findElement(serviceMenuButton).click();
+        return new ServiceMenuPage();
     }
 
     public void refreshPage(){

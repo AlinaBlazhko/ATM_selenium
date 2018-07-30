@@ -1,12 +1,11 @@
 package po;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Created by X240 on 7/22/2018.
  */
-public class EmailPage extends AbstractPage{
+public class EmailPage extends AbstractPage {
 
     private static final String SUBJECT = "Email for test";
     private static final String BODY = "Hello Mr. Smith!";
@@ -16,9 +15,9 @@ public class EmailPage extends AbstractPage{
     private By closeButton = By.xpath("//div[@title='Закрыть']");
     private By sentButton = By.xpath("//span[text() = 'Отправить']");
 
-    public EmailPage(WebDriver driver) {
-        super(driver);
-    }
+//    public EmailPage(WebDriver drive) {
+//        super(drive);
+//    }
     
     public void writeEmail(){
         waitForElementVisibility(sentButton);
@@ -29,7 +28,7 @@ public class EmailPage extends AbstractPage{
 
     public PopupPage closeEmail(){
         driver.findElement(closeButton).click();
-        return new PopupPage(driver);
+        return new PopupPage();
     }
 
     public void sentEmail(){

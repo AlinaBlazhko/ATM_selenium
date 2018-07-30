@@ -1,15 +1,14 @@
-package po;
+package drive.pages;
 
 import org.openqa.selenium.By;
 
 /**
- * Created by X240 on 7/22/2018.
+ * Created by X240 on 7/28/2018.
  */
-public class HomePage extends AbstractPage {
+public class MainDraivePage extends AbstractPage {
+    private final static String URL = "https://disk.yandex.ru/";
 
-    private final static String URL = "https://mail.yandex.ru/";
-
-    private By logInButton = By.cssSelector(".HeadBanner-ButtonsWrapper a.HeadBanner-Button-Enter");
+    private By logInButton = By.xpath("//a[text()='Sign in']");
 
     public void open() {
         driver.get(URL);
@@ -17,6 +16,7 @@ public class HomePage extends AbstractPage {
 
     public LoginPage clickOnButtonAuthorization() {
         waitForElementVisibility(logInButton);
+        highlightElement(logInButton);
         driver.findElement(logInButton).click();
         return new LoginPage();
     }

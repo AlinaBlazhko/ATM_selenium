@@ -3,24 +3,22 @@ package po;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by X240 on 7/22/2018.
  */
-public class FoldersPage extends AbstractPage{
+public class FoldersPage extends AbstractPage {
     private By drafts = By.xpath("//span[text()='Черновики']");
     private By sents = By.xpath("//span[text()='Отправленные']");
     private By countOfEmailsInDraftFolder = By.cssSelector("a[title='Черновики | одно письмо']");
     private By countOfEmailsInSentFolder = By.cssSelector("a[title='Отправленные | одно письмо']");
 
-    public FoldersPage(WebDriver driver) {
-        super(driver);
-    }
+
+//    public FoldersPage(WebDriver drive) {
+//        super(drive);
+//    }
 
     public void openDrafts(){
         new WebDriverWait(driver, 40).until(new ExpectedCondition<Boolean>() {
@@ -45,8 +43,8 @@ public class FoldersPage extends AbstractPage{
     public CenterPart openSents(){
         waitForElementVisibility(sents);
         driver.findElement(sents).click();
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-        return new CenterPart(driver);
+//        drive.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+        return new CenterPart();
     }
 
     public boolean getCountOfEmailsInDraftFolder(){
