@@ -1,9 +1,9 @@
-package drive.po;
+package drive.po.yandexdrive;
 
+import drive.po.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.FindBy;
 
-public class Header extends AbstractPage{
+public class Header extends AbstractPage {
     private By profileIcon = By.cssSelector("a.user2__current-account");
 
     public ProfileInfoPage openProfileInfo(){

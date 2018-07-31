@@ -1,10 +1,9 @@
-package drive.po;
+package drive.po.yandexdrive;
 
+import drive.po.AbstractPage;
 import org.openqa.selenium.By;
 
-import java.net.MalformedURLException;
-
-public class TrashPage extends AbstractPage{
+public class TrashPage extends AbstractPage {
     private By file = By.cssSelector(".listing-item__field_public-link");
     private By restoreButton = By.cssSelector("button.ufo-resources-action-bar__primary-button_desktop");
 

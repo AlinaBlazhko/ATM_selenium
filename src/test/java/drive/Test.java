@@ -1,15 +1,16 @@
 package drive;
 
 import drive.po.*;
+import drive.po.yandexdrive.FilesPage;
+import drive.po.yandexdrive.Header;
+import drive.po.yandexdrive.ProfileInfoPage;
+import drive.po.yandexdrive.TrashPage;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-
-import static drive.WebDriverSingleton.kill;
 
 public class Test {
 
     //java -jar selenium-server-standalone-3.13.0.jar -role hub
-    // java  -Dwebdriver.chrome.driver=C:\Users\Alina_Blazhko\IdeaProjects\ATM_selenium\chromedriver.exe -jar selenium-server-standalone-3.13.0.jar -role node -hub http://10.66.171.45:4444/wd/hub
+    // java -Dwebdriver.chrome.driver=C:\Users\Alina_Blazhko\IdeaProjects\ATM_selenium\chromedriver.exe -jar selenium-server-standalone-3.13.0.jar -role node -hub http://10.66.171.45:4444/wd/hub
 
     @org.testng.annotations.Test(description = "perform login and verify that login successful")
     public void loginInEmailBox() {
@@ -22,9 +23,10 @@ public class Test {
         Assert.assertTrue(trashPage.isFileInTrash());
         trashPage.restoreFile();
         filesPage = trashPage.goBack();
-        Header header = new Header();
-        ProfileInfoPage profileInfoPage = header.openProfileInfo();
-        profileInfoPage.openSettings();
+        filesPage.dragNDropSquare();
+        //        Header header = new Header();
+//        ProfileInfoPage profileInfoPage = header.openProfileInfo();
+//        profileInfoPage.openSettings();
     }
 
 //    @AfterTest

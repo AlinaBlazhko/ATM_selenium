@@ -1,8 +1,7 @@
 package drive.po;
 
+import drive.po.yandexdrive.FilesPage;
 import org.openqa.selenium.By;
-
-import java.net.MalformedURLException;
 
 public class LoginPage extends AbstractPage {
 

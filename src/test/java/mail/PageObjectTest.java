@@ -1,12 +1,11 @@
+package mail;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import po.*;
-
-import java.util.concurrent.TimeUnit;
+import mail.po.*;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;

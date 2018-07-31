@@ -1,14 +1,17 @@
-package drive.po;
+package drive.po.yandexdrive;
 
+import drive.po.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 
-import java.net.MalformedURLException;
 import java.util.List;
 
-public class FilesPage extends AbstractPage{
+public class FilesPage extends AbstractPage {
     private static final By SQUARE_LOCATOR = By.cssSelector("div.listing-item__icon-wrapper.js-prevent-mouse-selection");
+    private By sortDropDown = By.cssSelector("div.menu__item.menu__item_type_option");
+
 
     public FilesPage dragNDropSquare() {
         waitForElementVisibility(SQUARE_LOCATOR);
@@ -27,5 +30,12 @@ public class FilesPage extends AbstractPage{
         highlightElement(SQUARE_LOCATOR);
         new Actions(driver).doubleClick(driver.findElement(SQUARE_LOCATOR)).build().perform();
         return new TrashPage();
+    }
+
+
+    public void chooseSortType(){
+        waitForElementVisibility(sortDropDown);
+        Select sorts = new Select(driver.findElement(sortDropDown));
+        sorts.selectByIndex(2);
     }
 }

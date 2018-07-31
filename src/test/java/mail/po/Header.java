@@ -1,12 +1,10 @@
-package po;
+package mail.po;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -27,7 +25,7 @@ public class Header extends AbstractPage{
     }
 
     public void refreshPage(){
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
         new WebDriverWait(driver, 40).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver webDriver) {
                 try {

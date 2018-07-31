@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.MalformedURLException;
 
 public class AbstractPage {
-    private static final int DEFAULT_TIMEOUT = 25;
+    private static final int DEFAULT_TIMEOUT = 40;
     protected WebDriver driver;
 
     protected AbstractPage(){
