@@ -29,9 +29,9 @@ public class WebDriverSingleton {
         try {
             driver = new RemoteWebDriver(new URL("http://10.66.171.45:4444/wd/hub"), DesiredCapabilities.chrome());
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+    } catch (MalformedURLException e) {
+        e.printStackTrace();
+    }
         driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
