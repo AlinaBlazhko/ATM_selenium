@@ -24,13 +24,7 @@ public class YandexEmailTests {
     private CenterPart centerPart;
     private FoldersPage foldersPage;
 
-
-//    @BeforeClass(description = "start browser")
-//    public void iniDriver() {
-//        System.setProperty("webdriver.chrome.driver", "/rechromedriver.exe");
-//        driver = new ChromeDriver();
-//        driver.manage().window().maximize();
-//    }
+    //maven command for running tests mvn clean -P chrome,grid,localhost test
 
     @Test(description = "perform login and verify that login successful")
     public void loginInEmailBox() {
@@ -38,7 +32,7 @@ public class YandexEmailTests {
         homePage.open();
         loginPage = homePage.clickOnButtonAuthorization();
         loginPage.login();
-//        assertTrue(driver.getTitle().contains("Входящие — Яндекс.Почта"));
+//        assertTrue(driver.getCurrentUrl().contains("Входящие — Яндекс.Почта"));
     }
 
     @Test(description = "write new email and save as draft", dependsOnMethods = "loginInEmailBox")

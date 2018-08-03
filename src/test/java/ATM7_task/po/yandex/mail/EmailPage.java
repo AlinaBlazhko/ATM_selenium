@@ -10,11 +10,12 @@ public class EmailPage extends AbstractPage{
 
     private static final String SUBJECT = "Email for test";
     private static final String BODY = "Hello Mr. Smith!";
-    private By to = By.cssSelector("div.js-compose-field.ATM6_task-Bubbles");
-    private By subject = By.cssSelector("input.ATM6_task-Compose-Field-Input-Controller.js-compose-field.js-editor-tabfocus-prev");
+    private By to = By.cssSelector("div.js-compose-field.mail-Bubbles");
+    private By subject = By.cssSelector("input.mail-Compose-Field-Input-Controller.js-compose-field.js-editor-tabfocus-prev");
     private By letter = By.cssSelector("textarea.cke_editable_themed.cke_contents_ltr");
     private By closeButton = By.xpath("//div[@title='Закрыть']");
     private By sentButton = By.xpath("//span[text() = 'Отправить']");
+    private By recipientEmail = By.cssSelector("span.mail-Bubble-Block_text");
 
     public void writeEmail(){
         waitForElementVisibility(sentButton);
@@ -34,8 +35,8 @@ public class EmailPage extends AbstractPage{
     }
 
     public String getTo() {
-        waitForElementVisibility(By.cssSelector("span.ATM6_task-Bubble-Block_text"));
-        return driver.findElement(By.cssSelector("span.ATM6_task-Bubble-Block_text")).getText();
+        waitForElementVisibility(recipientEmail);
+        return driver.findElement(recipientEmail).getText();
     }
 
     public String getSubject() {

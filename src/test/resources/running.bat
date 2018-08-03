@@ -1,2 +1,3 @@
 start starthub.bat
-start startnode.bat
+start start_chrome_node.bat
+start start_firefox_node.bat

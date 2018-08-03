@@ -11,11 +11,11 @@ import java.util.List;
 public class FilesPage extends AbstractPage {
     private static final By SQUARE_LOCATOR = By.cssSelector("div.listing-item__icon-wrapper.js-prevent-mouse-selection");
     private By sortDropDown = By.cssSelector("div.menu__item.menu__item_type_option");
+    private By nameOfFolder = By.cssSelector("h1[title='Файлы']");
 
 
     public FilesPage dragNDropSquare() {
-        waitForElementVisibility(SQUARE_LOCATOR);
-//        waitForElementVisibility(TARGET_LOCATOR);
+        waitForElementVisibility(nameOfFolder);
         List<WebElement> element = driver.findElements(SQUARE_LOCATOR);
 //        WebElement target = driver.findElement(TARGET_LOCATOR);
 //        Screenshoter.takeScreenshot();
