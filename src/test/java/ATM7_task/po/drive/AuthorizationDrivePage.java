@@ -1,15 +1,16 @@
-package ATM7_task.po.yandex.drive;
+package ATM7_task.po.drive;
 
 import ATM7_task.po.AbstractPage;
 import org.openqa.selenium.By;
 
-public class MainPage extends AbstractPage {
+public class AuthorizationDrivePage extends AbstractPage {
     private final static String URL = "https://disk.yandex.ru/";
 
     private By logInButton = By.xpath("//a[text()='Sign in']");
 
     public void open() {
         driver.get(URL);
+        waitForElementVisibility(logInButton);
     }
 
     public LoginPage clickOnButtonAuthorization(){

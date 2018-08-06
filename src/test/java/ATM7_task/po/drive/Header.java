@@ -1,4 +1,4 @@
-package ATM7_task.po.yandex.drive;
+package ATM7_task.po.drive;
 
 import ATM7_task.po.AbstractPage;
 import org.openqa.selenium.By;
@@ -9,6 +9,7 @@ public class Header extends AbstractPage {
     public ProfileInfoPage openProfileInfo(){
         waitForElementVisibility(profileIcon);
         driver.findElement(profileIcon).click();
+        driver.findElements(By.cssSelector("a.menu__item_type_link")).get(0).click();
         return new ProfileInfoPage();
     }
 }

@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class HomePage extends AbstractPage {
 
-    private final static String URL = "https://ATM6_task.yandex.ru/";
+    private final static String URL = "https://mail.yandex.ru/";
 
     private By logInButton = By.cssSelector(".HeadBanner-ButtonsWrapper a.HeadBanner-Button-Enter");
 

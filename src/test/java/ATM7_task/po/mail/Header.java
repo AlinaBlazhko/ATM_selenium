@@ -1,4 +1,4 @@
-package ATM7_task.po.yandex.mail;
+package ATM7_task.po.mail;
 
 import ATM7_task.po.AbstractPage;
 import org.openqa.selenium.By;
@@ -15,6 +15,8 @@ public class Header extends AbstractPage{
 
     private By writeNewEmailButton = By.cssSelector("span.mail-ComposeButton-Text");
     private By refreshButton = By.cssSelector("span[title='Проверить, есть ли новые письма (F9)']");
+    private By drive = By.id("recipient-1");
+
 
     public EmailPage openNewEmail(){
         waitForElementVisibility(writeNewEmailButton);
@@ -36,5 +38,9 @@ public class Header extends AbstractPage{
                 return true;
             }
         });
+    }
+    public ProfilePage openProfile(){
+        scrollOnTheBottom();
+        return  new ProfilePage();
     }
 }

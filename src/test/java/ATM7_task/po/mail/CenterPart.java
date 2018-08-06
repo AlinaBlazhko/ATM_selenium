@@ -1,8 +1,7 @@
-package ATM7_task.po.yandex.mail;
+package ATM7_task.po.mail;
 
 import ATM7_task.po.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Created by X240 on 7/23/2018.

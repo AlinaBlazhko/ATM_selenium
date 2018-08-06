@@ -2,6 +2,7 @@ package ATM7_task;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
@@ -27,8 +28,12 @@ public class WebDriverSingleton {
     private static WebDriver init(){
         WebDriver driver = null;
         try {
-            driver = new RemoteWebDriver(new URL("http://10.66.171.45:4444/wd/hub"), DesiredCapabilities.chrome());
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName("chrome");
 
+//            capabilities.setCapability("handlesAlerts", false);
+//            driver = new RemoteWebDriver(new URL("http://10.66.165.0:4444/wd/hub"), DesiredCapabilities.chrome());
+            driver = new RemoteWebDriver(new URL(" http://192.168.137.1:4444/wd/hub"), capabilities);
     } catch (MalformedURLException e) {
         e.printStackTrace();
     }

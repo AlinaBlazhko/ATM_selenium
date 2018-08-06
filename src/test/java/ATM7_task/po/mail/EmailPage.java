@@ -1,4 +1,4 @@
-package ATM7_task.po.yandex.mail;
+package ATM7_task.po.mail;
 
 import ATM7_task.po.AbstractPage;
 import org.openqa.selenium.By;

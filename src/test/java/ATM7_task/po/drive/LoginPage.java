@@ -1,13 +1,9 @@
-package ATM7_task.po.yandex.mail;
+package ATM7_task.po.drive;
 
 import ATM7_task.po.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
-/**
- * Created by X240 on 7/22/2018.
- */
-public class LoginPage extends AbstractPage{
+public class LoginPage extends AbstractPage {
 
     private static final String USER = "alinaBlazhko@yandex.ru";
     private static final String PASSWORD = "gfhjkmkzntcnf";
@@ -17,12 +13,10 @@ public class LoginPage extends AbstractPage{
     //button.passport-Button[type=submit]
     private By loginButton = By.xpath("//span[text()='Войти']");
 
-    public void login(){
+    public FilesPage login(){
         waitForElementVisibility(userName);
         driver.findElement(userName).sendKeys(USER);
         driver.findElement(password).sendKeys(PASSWORD);
         driver.findElement(loginButton).click();
-        waitForElementVisibility(By.xpath("//div[text()='alinaBlazhko']"));
-    }
-
-}
+        return new FilesPage();
+    }}

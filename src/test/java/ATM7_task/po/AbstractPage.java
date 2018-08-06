@@ -59,4 +59,8 @@ public class AbstractPage {
     protected void waitForAjaxProcessed() {
         new WebDriverWait(driver, DEFAULT_TIMEOUT).until(isAjaxFinished());
     }
+
+    protected void scrollOnTheBottom(){
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
 }

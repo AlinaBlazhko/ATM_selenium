@@ -1,4 +1,4 @@
-package ATM7_task.po.yandex.drive;
+package ATM7_task.po.drive;
 
 import ATM7_task.po.AbstractPage;
 import org.openqa.selenium.By;

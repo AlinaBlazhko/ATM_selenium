@@ -1,10 +1,12 @@
-package ATM7_task.po.yandex.drive;
+package ATM7_task.po.drive;
 
 import ATM7_task.po.AbstractPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 
 public class TrashPage extends AbstractPage {
-    private By file = By.cssSelector(".listing-item__field_public-link");
+    private By file = By.cssSelector("div.listing-item__info");
     private By restoreButton = By.cssSelector("button.ufo-resources-action-bar__primary-button_desktop");
 
     public void restoreFile(){

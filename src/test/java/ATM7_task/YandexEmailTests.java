@@ -1,9 +1,8 @@
 package ATM7_task;
 
-import ATM7_task.po.yandex.mail.*;
+import ATM7_task.po.mail.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static ATM7_task.WebDriverSingleton.kill;
@@ -13,29 +12,9 @@ import static org.testng.Assert.assertTrue;
 /**
  * Created by X240 on 7/22/2018.
  */
-public class YandexEmailTests {
+public class YandexEmailTests extends BaseTest{
 
-    private WebDriver driver;
-    private HomePage homePage;
-    private LoginPage loginPage;
-    private PopupPage popupPage;
-    private Header header;
-    private EmailPage newEmailPage;
-    private CenterPart centerPart;
-    private FoldersPage foldersPage;
-
-    //maven command for running tests mvn clean -P chrome,grid,localhost test
-
-    @Test(description = "perform login and verify that login successful")
-    public void loginInEmailBox() {
-        homePage = new HomePage();
-        homePage.open();
-        loginPage = homePage.clickOnButtonAuthorization();
-        loginPage.login();
-//        assertTrue(driver.getCurrentUrl().contains("Входящие — Яндекс.Почта"));
-    }
-
-    @Test(description = "write new email and save as draft", dependsOnMethods = "loginInEmailBox")
+    @Test(description = "write new email and save as draft")
     public void writeNewEmailTest() {
         header = new Header();
         newEmailPage = header.openNewEmail();
@@ -73,7 +52,8 @@ public class YandexEmailTests {
     public void clearSentFolder(){
         header.refreshPage();
         centerPart.deleteEmail();
-        kill();
+//        header.openProfile();
+//        kill();
     }
 
 }

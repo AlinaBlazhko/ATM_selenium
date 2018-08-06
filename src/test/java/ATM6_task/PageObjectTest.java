@@ -27,7 +27,7 @@ public class PageObjectTest {
 
     @BeforeClass(description = "start browser")
     public void iniDriver() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
