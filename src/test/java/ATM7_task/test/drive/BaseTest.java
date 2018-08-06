@@ -29,6 +29,6 @@ public class BaseTest {
     public void after(){
         trashPage.clickToFile();
         actionBarPopup.clickDeleteButton();
-//        kill();
+        kill();
     }
 }
