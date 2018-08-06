@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class Header extends AbstractPage{
 
-    private By writeNewEmailButton = By.cssSelector("span.ATM6_task-ComposeButton-Text");
+    private By writeNewEmailButton = By.cssSelector("span.mail-ComposeButton-Text");
     private By refreshButton = By.cssSelector("span[title='Проверить, есть ли новые письма (F9)']");
 
     public Header(WebDriver driver) {
@@ -20,6 +20,7 @@ public class Header extends AbstractPage{
     }
 
     public EmailPage openNewEmail(){
+        waitForElementVisibility(writeNewEmailButton);
         driver.findElement(writeNewEmailButton).click();
         return new EmailPage(driver);
     }

@@ -33,7 +33,7 @@ public class WebDriverSingleton {
 
 //            capabilities.setCapability("handlesAlerts", false);
 //            driver = new RemoteWebDriver(new URL("http://10.66.165.0:4444/wd/hub"), DesiredCapabilities.chrome());
-            driver = new RemoteWebDriver(new URL(" http://192.168.137.1:4444/wd/hub"), capabilities);
+            driver = new RemoteWebDriver(new URL("http://10.66.171.45:4444/wd/hub"), capabilities);
     } catch (MalformedURLException e) {
         e.printStackTrace();
     }

@@ -10,13 +10,13 @@ import org.openqa.selenium.interactions.Actions;
  */
 public class ActionBarPopup extends AbstractPage{
     private By deleteForeverButton = By.cssSelector("button.ufo-resources-action-bar__primary-button_desktop");
-    private By downloadButton = By.cssSelector("button.ufo-resources-action-bar__primary-button_desktop");
-    private By deleteButton = By.cssSelector("button.groupable-buttons__visible-button.groupable-buttons__visible-button_name_delete ");
-    private By amountOfCheckingFiles = By.className("selection-info__text");
+        private By downloadButton = By.cssSelector("//span[text()='Скачать']");
+    private By deleteAndDownloadButtons = By.cssSelector("button.ufo-resources-action-bar__primary-button_desktop");
+    private By amountOfCheckingFiles = By.className("resources-info-dropdown__name");
 
 
 
-    public void downloadFiles(){
+    public void downloadFiles() {
         waitForElementVisibility(downloadButton);
         highlightElement(downloadButton);
         driver.findElement(downloadButton).click();
@@ -24,9 +24,9 @@ public class ActionBarPopup extends AbstractPage{
 
 
     public void clickDeleteButton(){
-        waitForElementVisibility(deleteButton);
-        highlightElement(deleteButton);
-        driver.findElement(deleteButton).click();
+        waitForElementVisibility(deleteAndDownloadButtons);
+        highlightElement(deleteAndDownloadButtons);
+        driver.findElements(deleteAndDownloadButtons).get(0).click();
     }
 
 
@@ -39,7 +39,7 @@ public class ActionBarPopup extends AbstractPage{
 
     public boolean isAmountOfFilesRight(){
         waitForElementVisibility(amountOfCheckingFiles);
-        return  driver.findElement(amountOfCheckingFiles).getText().endsWith("2 файла");
+        return  driver.findElement(amountOfCheckingFiles).getText().equals("test.json");
     }
 
 }
