@@ -27,6 +27,8 @@ public class BaseTest {
 
     @AfterTest(description = "Close browser")
     public void after(){
+        trashPage.clickToFile();
+        actionBarPopup.clickDeleteButton();
         kill();
     }
 }

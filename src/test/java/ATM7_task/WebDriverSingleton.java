@@ -31,9 +31,7 @@ public class WebDriverSingleton {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("chrome");
 
-//            capabilities.setCapability("handlesAlerts", false);
-//            driver = new RemoteWebDriver(new URL("http://10.66.165.0:4444/wd/hub"), DesiredCapabilities.chrome());
-            driver = new RemoteWebDriver(new URL(" http://192.168.137.1:4444/wd/hub"), capabilities);
+            driver = new RemoteWebDriver(new URL("http://10.66.171.45:4444/wd/hub"), capabilities);
     } catch (MalformedURLException e) {
         e.printStackTrace();
     }
@@ -54,26 +52,4 @@ public class WebDriverSingleton {
             }
         }
     }
-
-
-//    WebDriver driver;
-//
-//
-//    public RemoteWebDriver getWebDriverInstance() throws MalformedURLException {
-//        DesiredCapabilities cap = DesiredCapabilities.chrome();
-//        driver = new RemoteWebDriver(new URL("http://10.66.171.45:1270/wd/hub"), cap);
-//        driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
-//        driver.manage().window().maximize();
-//        return driver;
-//    }
-//
-//    @Test
-//    public void test(){
-//
-//    }
-//
-//    @AfterTest(alwaysRun = true)
-//    public void after(){
-//        driver.quit();
-//    }
 }
