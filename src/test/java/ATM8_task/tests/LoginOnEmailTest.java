@@ -3,15 +3,15 @@ package ATM8_task.tests;
 import ATM8_task.bo.EmailContent;
 import ATM8_task.bo.User;
 import ATM8_task.po.*;
+import ATM8_task.util.MethodsForTests;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.WebDriverRunner;
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.TimeUnit;
-
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
 
 
 public class LoginOnEmailTest {
@@ -21,6 +21,8 @@ public class LoginOnEmailTest {
     private Header header = page(Header.class);
     private EmailPage emailPage = page(EmailPage.class);
     private EmailPopup emailPopup = page(EmailPopup.class);
+    private LeftSection leftSection = page(LeftSection.class);
+    private CenterPart centerPart = page(CenterPart.class);
 
     @BeforeTest
     public void setUp(){
@@ -33,8 +35,8 @@ public class LoginOnEmailTest {
     public void login(){
         mainPage.openLoginPage();
         loginPage.login(User.getUSER(), User.getPASSWORD());
-
-        WebDriverRunner.getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        sleep(5000);
+        Assert.assertTrue(title().contains("Яндекс.Почта")); ;
     }
 
     @Test(description = "write email", dependsOnMethods = "login")
@@ -43,5 +45,14 @@ public class LoginOnEmailTest {
         emailPage.writeEmail(EmailContent.getRECIPIENT(), EmailContent.getSUBJECT(), EmailContent.getBODY());
         emailPage.closeEmail();
         emailPopup.closeEmailAndSaveAsDraft();
+        leftSection.openDraftFolder();
+        MethodsForTests.refreshPage();
+        Assert.assertTrue(centerPart.countOfDrafts() == 1);
+    }
+
+    @AfterTest(alwaysRun = true)
+    public void after(){
+        $("span.checkbox_view").setSelected(true);
+        $(By.xpath("//span[text()='Удалить']")).click();
     }
 }

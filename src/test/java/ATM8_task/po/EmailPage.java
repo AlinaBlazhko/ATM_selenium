@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import static com.codeborne.selenide.Selenide.$;
+
 public class EmailPage {
 
 //    private static final String SUBJECT = "Email for test";
@@ -27,9 +29,9 @@ public class EmailPage {
     private WebElement closeButton;
 
     public void writeEmail(String address, String subj, String body){
-        recipient.sendKeys(address);
-        subject.sendKeys(subj);
-        email.sendKeys(body);
+        $("div.js-compose-field.mail-Bubbles").val(address).pressTab();
+        $("input.mail-Compose-Field-Input-Controller.js-compose-field.js-editor-tabfocus-prev").val(subj).pressTab();
+        $("textarea.cke_editable_themed.cke_contents_ltr").val(address);
     }
 
     public void closeEmail(){
