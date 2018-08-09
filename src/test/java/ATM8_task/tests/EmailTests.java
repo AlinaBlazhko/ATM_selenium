@@ -4,17 +4,16 @@ import ATM8_task.bo.EmailContent;
 import ATM8_task.bo.User;
 import ATM8_task.po.*;
 import ATM8_task.util.MethodsForTests;
-import com.codeborne.selenide.Configuration;
-import org.openqa.selenium.By;
-import org.testng.Assert;
+import ATM8_task.util.SelenideExtension;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.*;
+import static org.testng.Assert.assertTrue;
 
 
-public class LoginOnEmailTest {
+public class EmailTests extends SelenideExtension{
 
     private MainPage mainPage = page(MainPage.class);
     private LoginPage loginPage = page(LoginPage.class);
@@ -26,8 +25,6 @@ public class LoginOnEmailTest {
 
     @BeforeTest
     public void setUp(){
-        Configuration.browser = "chrome";
-        Configuration.startMaximized = true;
         open("https://mail.yandex.ru/");
     }
 
@@ -35,11 +32,11 @@ public class LoginOnEmailTest {
     public void login(){
         mainPage.openLoginPage();
         loginPage.login(User.getUSER(), User.getPASSWORD());
-        sleep(5000);
-        Assert.assertTrue(title().contains("Яндекс.Почта")); ;
+        assertTrue(title().contains("Яндекс.Почта")); ;
     }
 
-    @Test(description = "write email", dependsOnMethods = "login")
+    @Test(description = "write email and save as draft",
+            dependsOnMethods = "login")
     public void writeEmailAndSafeAsDraft(){
         header.openNewEmail();
         emailPage.writeEmail(EmailContent.getRECIPIENT(), EmailContent.getSUBJECT(), EmailContent.getBODY());
@@ -47,12 +44,25 @@ public class LoginOnEmailTest {
         emailPopup.closeEmailAndSaveAsDraft();
         leftSection.openDraftFolder();
         MethodsForTests.refreshPage();
-        Assert.assertTrue(centerPart.countOfDrafts() == 1);
+        switchTo().window("Черновики — Яндекс.Почта");
+        assertTrue(centerPart.countOfDrafts() == 1);
+    }
+
+    @Test(description = "open draft, verify email's content and send folder",
+            dependsOnMethods = "writeEmailAndSafeAsDraft")
+    public void sendingDraftEmail(){
+        centerPart.openDraftEmail();
+        assertTrue(emailPage.isRecipientRight());
+        assertTrue(emailPage.isSubjectRight(EmailContent.getSUBJECT()));
+        assertTrue(emailPage.isTextRight("Hello Mr. Smith!\n"));
+        emailPage.sendEmail();
+        leftSection.openSentFolder();
+        assertTrue(leftSection.rightCountOfEmail());
     }
 
     @AfterTest(alwaysRun = true)
     public void after(){
-        $("span.checkbox_view").setSelected(true);
-        $(By.xpath("//span[text()='Удалить']")).click();
+        leftSection.openDraftFolder();
+        centerPart.deleteAllEmailsFromFolder();
     }
 }

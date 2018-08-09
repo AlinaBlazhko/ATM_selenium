@@ -7,10 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import static com.codeborne.selenide.Selenide.$;
 
 public class Header {
-    @FindBy(css = "span.mail-ComposeButton-Text")
-    private WebElement writeNewEmailButton;
+    private By writeNewEmailButton = By.cssSelector("span.mail-ComposeButton-Text");
 
     public void openNewEmail(){
-        $(By.cssSelector("span.mail-ComposeButton-Text")).click();
+        $(writeNewEmailButton).click();
     }
 }

@@ -8,7 +8,9 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class MainPage {
 
+    private By loginButton = By.cssSelector(".HeadBanner-ButtonsWrapper a.HeadBanner-Button-Enter");
+
     public void openLoginPage(){
-        $(".HeadBanner-ButtonsWrapper a.HeadBanner-Button-Enter").click();
+        $(loginButton).click();
     }
 }
