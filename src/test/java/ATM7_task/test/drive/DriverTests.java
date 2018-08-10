@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 public class DriverTests extends BaseTest {
 
-    @Test(description = "Upload file images.jpg in drive")
+    @Test(description = "Upload file images.jpg in drivepages")
     public void uploadFileToDrive() {
         loginPage = authorizationPage.clickOnButtonAuthorization();
         filesPage = loginPage.login();

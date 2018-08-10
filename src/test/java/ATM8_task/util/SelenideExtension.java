@@ -8,6 +8,7 @@ public abstract class SelenideExtension {
     public SelenideExtension(){
         Configuration.browser = CHROME;
         Configuration.startMaximized = true;
+        Configuration.timeout = 2000;
     }
 
 }

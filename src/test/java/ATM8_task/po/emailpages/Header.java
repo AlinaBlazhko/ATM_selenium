@@ -1,4 +1,4 @@
-package ATM8_task.po;
+package ATM8_task.po.emailpages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
