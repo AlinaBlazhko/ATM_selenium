@@ -5,12 +5,17 @@ import ATM8_task.bo.User;
 import ATM8_task.po.emailpages.*;
 import ATM8_task.util.MethodsForTests;
 import ATM8_task.util.SelenideExtension;
-
+import com.codeborne.selenide.WebDriverRunner;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import static com.codeborne.selenide.Selenide.*;
+import static ATM8_task.util.MethodsForTests.assertionWaitForTitle;
+import static ATM8_task.util.MethodsForTests.deleteAllEmailsFromFolder;
+import static ATM8_task.util.MethodsForTests.refreshPage;
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.title;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.testng.Assert.assertTrue;
@@ -33,10 +38,11 @@ public class EmailTests extends SelenideExtension {
     }
 
     @Test(description = "perform login email")
-    public void login() {
+    public void login() throws InterruptedException {
         mainPage.openLoginPage();
         loginPage.login(User.getUSER(), User.getPASSWORD());
-//        assertTrue(title().contains("Входящие"));
+//        wait(10000).(assertionWaitForTitle("text"));
+        assertTrue(title().contains("Яндекс.Почта"));
 
     }
 
@@ -49,7 +55,6 @@ public class EmailTests extends SelenideExtension {
         emailPopup.closeEmailAndSaveAsDraft();
         leftSection.openDraftFolder();
         MethodsForTests.refreshPage();
-//        switchTo().window("Черновики — Яндекс.Почта");
         assertTrue(centerPart.countOfDrafts() == 1);
     }
 
@@ -62,12 +67,13 @@ public class EmailTests extends SelenideExtension {
         assertTrue(emailPage.isTextRight("Hello Mr. Smith!\n"));
         emailPage.sendEmail();
         leftSection.openSentFolder();
+        WebDriverRunner.getWebDriver().navigate().refresh();
         assertTrue(leftSection.rightCountOfEmail());
     }
 
     @AfterTest(alwaysRun = true)
     public void after() {
-        leftSection.openDraftFolder();
-        centerPart.deleteAllEmailsFromFolder();
+        leftSection.openSentFolder();
+        deleteAllEmailsFromFolder();
     }
 }

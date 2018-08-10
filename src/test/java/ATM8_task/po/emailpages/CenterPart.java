@@ -12,8 +12,6 @@ import static com.codeborne.selenide.Selenide.$$;
  */
 public class CenterPart {
 
-    private By checkboxes = By.cssSelector("label.nb-checkbox._nb-small-checkbox-checkbox._init");
-    private By deleteButton = By.xpath("//span[text()='Удалить']");
 
     private By listOfEmailsInFolder = By.cssSelector("div.mail-MessageSnippet-Content");
 
@@ -25,11 +23,5 @@ public class CenterPart {
         $(listOfEmailsInFolder).click();
     }
 
-    public void deleteAllEmailsFromFolder() {
-        ElementsCollection checks = $$(checkboxes);
-        for (WebElement check : checks) {
-            check.click();
-        }
-        $(deleteButton).click();
-    }
+
 }
