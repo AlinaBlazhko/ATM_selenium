@@ -1,28 +1,29 @@
 package ATM7_task.test.drive;
 
 import ATM7_task.assertions.CheckThat;
-import ATM7_task.po.drive.OptionsPopup;
+import ATM7_task.po.drive.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class DriverTests extends BaseTest {
+    private FilesPage filesPage;
 
     @Test(description = "Upload file images.jpg in drivepages")
     public void uploadFileToDrive() {
-        loginPage = authorizationPage.clickOnButtonAuthorization();
+        LoginPage loginPage = new AuthorizationDrivePage().clickOnButtonAuthorization();
         filesPage = loginPage.login();
-        popup = filesPage.uploadFile();
+        UploadPopup popup = filesPage.uploadFile();
         filesPage = popup.closePopup();
-        actionBarPopup = filesPage.selectFile();
+        filesPage.selectFile();
         CheckThat.fileIsDisplayed();
     }
 
     @Test(description = "download image.jpg and delete forever", dependsOnMethods = "uploadFileToDrive")
     public void downloadAndDeleteTest() {
-        OptionsPopup options = filesPage.rightClickToElement();
-        options.downloadFile();
+        filesPage.rightClickToElement();
+        new OptionsPopup().downloadFile();
         filesPage.dragAndDropSquare();
-        trashPage = filesPage.openTrash();
+        filesPage.openTrash();
         CheckThat.isFileInTrash();
     }
 }

@@ -4,6 +4,9 @@ import ATM7_task.po.drive.*;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
+import java.net.MalformedURLException;
+
+import static ATM7_task.WebDriverSingleton.getWebDriverInstance;
 import static ATM7_task.WebDriverSingleton.kill;
 
 /**
@@ -11,24 +14,22 @@ import static ATM7_task.WebDriverSingleton.kill;
  */
 public class BaseTest {
 
-    LoginPage loginPage;
-    FilesPage filesPage;
-    TrashPage trashPage;
-    AuthorizationDrivePage authorizationPage;
-    UploadPopup popup;
-    ActionBarPopup actionBarPopup;
+
 
     @BeforeTest
     public void setUp() {
-        authorizationPage = new AuthorizationDrivePage();
-        authorizationPage.open();
+        try {
+            getWebDriverInstance().get("https://disk.yandex.ru/");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @AfterTest(description = "Close browser")
     public void after(){
-        trashPage.clickToFile();
-        actionBarPopup.clickDeleteButton();
+        new TrashPage().deleteAllFroMTrash();
+//        new ActionBarPopup().clickDeleteButton();
         kill();
     }
 }

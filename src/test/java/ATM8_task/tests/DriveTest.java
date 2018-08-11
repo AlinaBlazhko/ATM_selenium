@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import static ATM8_task.util.CheckThat.userIsSignInDriver;
 import static ATM8_task.util.MethodsForTests.assertionWaitForTitle;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -19,7 +20,6 @@ public class DriveTest extends SelenideExtension {
 
     private AuthorizationDrivePage mainPage = page(AuthorizationDrivePage.class);
     private LoginPage loginPage = page(LoginPage.class);
-    private LeftSideOfPage leftSideOfPage = page(LeftSideOfPage.class);
     private FilesPage filesPage = page(FilesPage.class);
     private TrashPage trashPage = page(TrashPage.class);
 
@@ -30,7 +30,7 @@ public class DriveTest extends SelenideExtension {
         mainPage.clickOnButtonAuthorization();
         loginPage.login(User.getUSER(), User.getPASSWORD());
         assertionWaitForTitle("Яндекс.Диск");
-        Assert.assertTrue(title().contains("Яндекс.Диск"));
+        userIsSignInDriver();
     }
 
     @Test(description = "perform login email")
@@ -40,7 +40,6 @@ public class DriveTest extends SelenideExtension {
         refresh();
         trashPage.clickToFile();
         trashPage.restoreFile();
-
         filesPage.openContextMenu();
     }
 }
