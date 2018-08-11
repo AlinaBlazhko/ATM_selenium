@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import static ATM7_task.PropertyHelper.*;
 import static org.testng.Assert.assertTrue;
 
 public class WebDriverSingleton {
@@ -31,7 +32,7 @@ public class WebDriverSingleton {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("chrome");
 
-            driver = new RemoteWebDriver(new URL("http://10.66.171.45:4444/wd/hub"), capabilities);
+            driver = new RemoteWebDriver(new URL(getGridHost()), capabilities);
     } catch (MalformedURLException e) {
         e.printStackTrace();
     }

@@ -1,5 +1,6 @@
 package ATM7_task.test.drive;
 
+import ATM7_task.assertions.CheckThat;
 import ATM7_task.po.drive.OptionsPopup;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -13,7 +14,7 @@ public class DriverTests extends BaseTest {
         popup = filesPage.uploadFile();
         filesPage = popup.closePopup();
         actionBarPopup = filesPage.selectFile();
-        Assert.assertTrue(actionBarPopup.isAmountOfFilesRight());
+        CheckThat.fileIsDisplayed();
     }
 
     @Test(description = "download image.jpg and delete forever", dependsOnMethods = "uploadFileToDrive")
@@ -22,6 +23,6 @@ public class DriverTests extends BaseTest {
         options.downloadFile();
         filesPage.dragAndDropSquare();
         trashPage = filesPage.openTrash();
-        Assert.assertTrue(trashPage.isFileInTrash());
+        CheckThat.isFileInTrash();
     }
 }
