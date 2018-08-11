@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import static ATM8_task.util.MethodsForTests.assertionWaitForTitle;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -28,7 +29,8 @@ public class DriveTest extends SelenideExtension {
         open("https://disk.yandex.ru/");
         mainPage.clickOnButtonAuthorization();
         loginPage.login(User.getUSER(), User.getPASSWORD());
-//        Assert.assertTrue(title().contains("Яндекс.Диск"));
+        assertionWaitForTitle("Яндекс.Диск");
+        Assert.assertTrue(title().contains("Яндекс.Диск"));
     }
 
     @Test(description = "perform login email")
