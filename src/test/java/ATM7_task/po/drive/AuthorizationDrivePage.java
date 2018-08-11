@@ -9,8 +9,8 @@ public class AuthorizationDrivePage extends AbstractPage {
     private By logInButton = By.xpath("//a[text()='Sign in']");
 
     public void open() {
-        driver.get(URL);
-        waitForElementVisibility(logInButton);
+        driver.get("https://disk.yandex.ru/");
+//        waitForElementVisibility(logInButton);
     }
 
     public LoginPage clickOnButtonAuthorization(){

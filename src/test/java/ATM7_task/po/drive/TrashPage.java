@@ -35,4 +35,8 @@ public class TrashPage extends AbstractPage {
         waitForElementVisibility(cleanTrashButton);
         driver.findElement(cleanTrashButton).click();
     }
+
+    public void deleteAllFroMTrash(){
+        driver.findElement(By.xpath("//span[text()='Очистить Корзину']"));
+    }
 }
