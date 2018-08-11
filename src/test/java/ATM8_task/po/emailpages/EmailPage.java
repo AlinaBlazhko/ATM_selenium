@@ -1,5 +1,6 @@
 package ATM8_task.po.emailpages;
 
+import ATM8_task.bo.Email;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -12,10 +13,10 @@ public class EmailPage {
     private By closeButton = By.xpath("//div[@title='Закрыть']");
     private By sentButton = By.xpath("//span[text() = 'Отправить']");
 
-    public void writeEmail(String address, String subj, String body) {
-        $(recipient).val(address).pressTab();
-        $(subject).val(subj).pressTab();
-        $(email).val(body);
+    public void writeEmail(Email newEmail) {
+        $(recipient).val(newEmail.getRecipient()).pressTab();
+        $(subject).val(newEmail.getSubject()).pressTab();
+        $(email).val(newEmail.getBody());
     }
 
     public void closeEmail() {
