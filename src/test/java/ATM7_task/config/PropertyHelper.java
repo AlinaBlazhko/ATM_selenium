@@ -1,4 +1,4 @@
-package ATM7_task;
+package ATM7_task.config;
 
 import java.io.*;
 import java.util.Properties;

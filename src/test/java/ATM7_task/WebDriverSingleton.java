@@ -2,14 +2,13 @@ package ATM7_task;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-import static ATM7_task.PropertyHelper.*;
+import static ATM7_task.config.PropertyHelper.*;
 import static org.testng.Assert.assertTrue;
 
 public class WebDriverSingleton {
