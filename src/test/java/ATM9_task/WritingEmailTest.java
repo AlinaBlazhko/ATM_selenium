@@ -3,6 +3,8 @@ package ATM9_task;
 import ATM9_task.bo.*;
 import ATM9_task.emailpages.*;
 import ATM8_task.util.MethodsForTests;
+import ATM9_task.factorymethod.AbstractEmail;
+import ATM9_task.factorymethod.EmailFieldWithoutBody;
 import com.codeborne.selenide.ElementsCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
@@ -39,7 +41,8 @@ public class WritingEmailTest {
     @Test(description = "perform login email")
     public void writeEmailWithoutSubject() throws InterruptedException {
         header.openNewEmail();
-        emailPage.writeEmailWithoutSubject(email);
+        EmailFieldWithoutBody newEmail = new EmailFieldWithoutBody();
+        emailPage.writeEmail(newEmail , email);
         emailPage.closeEmail();
         emailPopup.closeEmailAndSaveAsDraft();
         leftSection.openDraftFolder();

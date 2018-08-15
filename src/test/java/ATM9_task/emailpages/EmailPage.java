@@ -1,10 +1,8 @@
 package ATM9_task.emailpages;
 
 import ATM9_task.bo.Email;
-import ATM9_task.enums.TypeOfFillFields;
 import ATM9_task.factorymethod.AbstractEmail;
-import ATM9_task.factorymethod.EmailFactory;
-import ATM9_task.factorymethod.EmailWithoutSubject;
+import ATM9_task.factorymethod.EmailWithoutSubjectCreator;
 import org.openqa.selenium.By;
 
 import static ATM9_task.enums.TypeOfFillFields.ALL_FIELDS;
@@ -19,18 +17,9 @@ public class EmailPage {
     private By closeButton = By.xpath("//div[@title='Закрыть']");
     private By sentButton = By.xpath("//span[text() = 'Отправить']");
 
-    public void writeEmailWithAllFields(Email newEmail){
-        EmailFactory emailFactory = new EmailFactory();
-        AbstractEmail email = emailFactory.getWriter(ALL_FIELDS);
-        email.writeEmail(newEmail);
+    public void writeEmail(AbstractEmail email, Email content) {
+        email.writeEmail(content);
     }
-
-    public void writeEmailWithoutSubject(Email newEmail){
-        EmailFactory emailFactory = new EmailFactory();
-        AbstractEmail email = emailFactory.getWriter(NO_SUBJECT);
-        email.writeEmail(newEmail);
-    }
-
 
     public void closeEmail() {
         $(closeButton).click();

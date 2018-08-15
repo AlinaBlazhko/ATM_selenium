@@ -8,5 +8,5 @@ public interface AbstractEmail {
     By subject = By.cssSelector("input.mail-Compose-Field-Input-Controller.js-compose-field.js-editor-tabfocus-prev");
     By email = By.cssSelector("textarea.cke_editable_themed.cke_contents_ltr");
 
-    public abstract void writeEmail(Email email);
+    void writeEmail(Email email);
 }
