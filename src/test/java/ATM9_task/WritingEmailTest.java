@@ -3,12 +3,18 @@ package ATM9_task;
 import ATM9_task.bo.*;
 import ATM9_task.emailpages.*;
 import ATM8_task.util.MethodsForTests;
+import com.codeborne.selenide.ElementsCollection;
+import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static ATM8_task.util.CheckThat.emailIsDisplayedInDraft;
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.page;
+import static ATM9_task.enums.TypeOfFillFields.NO_SUBJECT;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -22,7 +28,7 @@ public class WritingEmailTest {
     private CenterPart centerPart = page(CenterPart.class);
     private Email email = new Email("alinaBlazhko@yandex.ru", "Email for test", "Hello Mr. Smith!");
 
-    @BeforeTest(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         getWebDriver().manage().timeouts().implicitlyWait(40, SECONDS);
         open("https://mail.yandex.ru/");
@@ -31,13 +37,39 @@ public class WritingEmailTest {
     }
 
     @Test(description = "perform login email")
-    public void writeEmailWithAllFields() throws InterruptedException {
+    public void writeEmailWithoutSubject() throws InterruptedException {
         header.openNewEmail();
-        emailPage.writeEmail(email);
+        emailPage.writeEmailWithoutSubject(email);
         emailPage.closeEmail();
         emailPopup.closeEmailAndSaveAsDraft();
         leftSection.openDraftFolder();
         MethodsForTests.refreshPage();
         emailIsDisplayedInDraft();
+    }
+
+//    @Test(description = "perform login email")
+//    public void writeEmailWithAllFields() throws InterruptedException {
+//        header.openNewEmail();
+//        emailPage.writeEmailWithAllFields(email);
+//        emailPage.closeEmail();
+//        emailPopup.closeEmailAndSaveAsDraft();
+//        leftSection.openDraftFolder();
+//        MethodsForTests.refreshPage();
+//        emailIsDisplayedInDraft();
+//    }
+
+    @AfterTest(alwaysRun = true)
+    public void after(){
+        By checkboxes = By.cssSelector("label.nb-checkbox._nb-small-checkbox-checkbox._init");
+        By deleteButton = By.xpath("//span[text()='Удалить']");
+
+        ElementsCollection checks = $$(checkboxes);
+        if (!$$(checks).isEmpty()) {
+            for (WebElement check : checks) {
+                check.click();
+            }
+            $(deleteButton).click();
+        }
+        getWebDriver().quit();
     }
 }
