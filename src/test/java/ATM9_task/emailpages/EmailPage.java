@@ -1,6 +1,8 @@
 package ATM9_task.emailpages;
 
 import ATM9_task.bo.Email;
+import ATM9_task.decorator.JsonDataDecorator;
+import ATM9_task.decorator.JsonDataSource;
 import ATM9_task.factorymethod.AbstractEmail;
 import ATM9_task.factorymethod.EmailWithoutSubjectCreator;
 import org.openqa.selenium.By;
@@ -21,6 +23,10 @@ public class EmailPage {
         email.writeEmail(content);
     }
 
+    public void writeEmailWithDecorator(){
+        JsonDataDecorator decorator = new JsonDataDecorator(new JsonDataSource());
+        decorator.writeEmail();
+    }
     public void closeEmail() {
         $(closeButton).click();
     }

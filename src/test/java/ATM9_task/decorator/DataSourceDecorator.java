@@ -11,12 +11,9 @@ public class DataSourceDecorator implements DataSource{
     }
 
     @Override
-    public Email readData(String file) {
-        return null;
+    public Email readData() {
+        return wrapper.readData();
     }
 
-    @Override
-    public void writeEmail(Email content) {
-
-    }
+    public void writeEmail(){}
 }

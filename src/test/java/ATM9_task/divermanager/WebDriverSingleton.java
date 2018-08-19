@@ -1,4 +1,4 @@
-package ATM9_task;
+package ATM9_task.divermanager;
 
 import com.codeborne.selenide.Configuration;
 import org.openqa.selenium.Capabilities;

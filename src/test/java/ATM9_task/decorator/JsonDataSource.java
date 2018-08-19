@@ -14,26 +14,19 @@ public class JsonDataSource implements DataSource {
 
 
     @Override
-    public Email readData(String file) {
-
+    public Email readData() {
         Gson gson = new Gson();
         EmailJsonSchema result = null;
         BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader(file));
+            br = new BufferedReader(
+                    new FileReader("src\\test\\resources\\email.json"));
             result = gson.fromJson(br, EmailJsonSchema.class);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-
+        System.out.println(result.getBody());
         return new Email(result.getRecipient(), result.getSubject(), result.getBody());
-    }
-
-    @Override
-    public void writeEmail(Email content) {
-        $(recipient).val(content.getRecipient()).pressTab();
-        $(subject).val(content.getSubject()).pressTab();
-        $(email).val(content.getBody());
     }
 }
