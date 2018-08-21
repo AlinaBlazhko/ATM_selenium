@@ -16,9 +16,9 @@ public class EmailPage extends AbstractPage{
     private By closeButton = By.xpath("//div[@title='Закрыть']");
     private By sentButton = By.xpath("//span[text() = 'Отправить']");
 
-    public EmailPage(WebDriver driver) {
-        super(driver);
-    }
+//    public EmailPage(WebDriver driver) {
+//        super(driver);
+//    }
     
     public void writeEmail(){
         waitForElementVisibility(sentButton);
@@ -29,7 +29,7 @@ public class EmailPage extends AbstractPage{
 
     public PopupPage closeEmail(){
         driver.findElement(closeButton).click();
-        return new PopupPage(driver);
+        return new PopupPage();
     }
 
     public void sentEmail(){

@@ -17,9 +17,9 @@ public class FoldersPage extends AbstractPage{
     private By countOfEmailsInDraftFolder = By.cssSelector("a[title='Черновики | одно письмо']");
     private By countOfEmailsInSentFolder = By.cssSelector("a[title='Отправленные | одно письмо']");
 
-    public FoldersPage(WebDriver driver) {
-        super(driver);
-    }
+//    public FoldersPage(WebDriver driver) {
+//        super(driver);
+//    }
 
     public void openDrafts(){
         new WebDriverWait(driver, 40).until(new ExpectedCondition<Boolean>() {
@@ -27,10 +27,8 @@ public class FoldersPage extends AbstractPage{
                 try {
                     driver.findElement(drafts).click();
                 } catch (StaleElementReferenceException e) {
-                    System.out.println("Select failed! Try again...");
                     return false;
                 }
-                System.out.println("test found!");
                 return true;
             }
         });
@@ -45,7 +43,7 @@ public class FoldersPage extends AbstractPage{
         waitForElementVisibility(sents);
         driver.findElement(sents).click();
         driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-        return new CenterPart(driver);
+        return new CenterPart();
     }
 
     public boolean getCountOfEmailsInDraftFolder(){

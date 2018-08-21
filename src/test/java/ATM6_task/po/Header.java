@@ -15,14 +15,14 @@ public class Header extends AbstractPage{
     private By writeNewEmailButton = By.cssSelector("span.mail-ComposeButton-Text");
     private By refreshButton = By.cssSelector("span[title='Проверить, есть ли новые письма (F9)']");
 
-    public Header(WebDriver driver) {
-        super(driver);
-    }
+//    public Header(WebDriver driver) {
+//        super(driver);
+//    }
 
     public EmailPage openNewEmail(){
         waitForElementVisibility(writeNewEmailButton);
         driver.findElement(writeNewEmailButton).click();
-        return new EmailPage(driver);
+        return new EmailPage();
     }
 
     public void refreshPage(){
@@ -32,10 +32,8 @@ public class Header extends AbstractPage{
                 try {
                     driver.findElement(refreshButton).click();
                 } catch (StaleElementReferenceException e) {
-                    System.out.println("Select failed! Try again...");
                     return false;
                 }
-                System.out.println("test found!");
                 return true;
             }
         });

@@ -12,9 +12,6 @@ public class HomePage extends AbstractPage {
 
     private By logInButton = By.cssSelector(".HeadBanner-ButtonsWrapper a.HeadBanner-Button-Enter");
 
-    public HomePage(WebDriver driver) {
-        super(driver);
-    }
 
     public void open() {
         driver.get(URL);
@@ -23,6 +20,6 @@ public class HomePage extends AbstractPage {
     public LoginPage clickOnButtonAuthorization() {
         waitForElementVisibility(logInButton);
         driver.findElement(logInButton).click();
-        return new LoginPage(driver);
+        return new LoginPage();
     }
 }

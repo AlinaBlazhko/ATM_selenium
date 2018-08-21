@@ -13,13 +13,7 @@ public class LoginPage extends AbstractPage{
 
     private By userName = By.name("login");
     private By password = By.name("passwd");
-    //button.passport-Button[type=submit]
     private By loginButton = By.xpath("//span[text()='Войти']");
-
-
-    public LoginPage(WebDriver driver) {
-        super(driver);
-    }
 
     public void login(){
         waitForElementVisibility(userName);

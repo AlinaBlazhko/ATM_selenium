@@ -9,10 +9,6 @@ public class PopupPage extends AbstractPage{
     private By notSaveButton = By.xpath("//span[text()='Не сохранять']");
     private By cancelButton = By.xpath("//span[text()='Отмена']");
 
-    public PopupPage(WebDriver driver) {
-        super(driver);
-    }
-
     public void closeAndSaveEmail(){
         driver.findElement(saveAndOpenButton).click();
     }

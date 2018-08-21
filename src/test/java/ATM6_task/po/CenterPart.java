@@ -12,14 +12,9 @@ public class CenterPart extends AbstractPage{
     private By selectEmail = By.cssSelector("label.nb-checkbox._nb-small-checkbox-checkbox._init");
     private By deleteButton = By.cssSelector("div[title='Удалить (Delete)']");
 
-    public CenterPart(WebDriver driver) {
-        super(driver);
-    }
-
-
     public EmailPage openEmail(){
         driver.findElement(email).click();
-        return new EmailPage(driver);
+        return new EmailPage();
     }
 
     public void deleteEmail(){

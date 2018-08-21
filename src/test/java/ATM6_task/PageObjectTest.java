@@ -6,6 +6,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import ATM6_task.po.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -23,6 +25,7 @@ public class PageObjectTest {
     private EmailPage newEmailPage;
     private CenterPart centerPart;
     private FoldersPage foldersPage;
+    private final static String URL = "https://mail.yandex.ru/";
 
 
     @BeforeClass(description = "start browser")
@@ -30,28 +33,29 @@ public class PageObjectTest {
         System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        driver.get(URL);
+        driver.manage().timeouts().pageLoadTimeout(10, SECONDS);
     }
 
     @Test(description = "perform login and verify that login successful")
     public void loginInEmailBox() {
-        homePage = new HomePage(driver);
-        homePage.open();
-        loginPage = homePage.clickOnButtonAuthorization();
+        homePage = new HomePage();
+        loginPage = new HomePage().clickOnButtonAuthorization();
         loginPage.login();
         assertTrue(driver.getTitle().contains("Входящие — Яндекс.Почта"));
     }
 
     @Test(description = "write new email and save as draft", dependsOnMethods = "loginInEmailBox")
     public void writeNewEmailTest() {
-        header = new Header(driver);
+        header = new Header();
         newEmailPage = header.openNewEmail();
         newEmailPage.writeEmail();
         newEmailPage.closeEmail();
-        popupPage = new PopupPage(driver);
+        popupPage = new PopupPage();
         popupPage.closeAndSaveEmail();
 
         // open draft folder
-        foldersPage = new FoldersPage(driver);
+        foldersPage = new FoldersPage();
         foldersPage.openDrafts();
         header.refreshPage();
         assertTrue(foldersPage.getCountOfEmailsInDraftFolder());
@@ -59,7 +63,7 @@ public class PageObjectTest {
 
     @Test(description = "verify email's content", dependsOnMethods = "writeNewEmailTest")
     public void sentEmailAndVerifyThatEmailIsSent() {
-        centerPart = new CenterPart(driver);
+        centerPart = new CenterPart();
         newEmailPage = centerPart.openEmail();
         assertTrue(newEmailPage.getTo().equals("alinaBlazhko") || newEmailPage.getTo().equals("alinaBlazhko@yandex.ru"));
         assertEquals(newEmailPage.getSubject(), "Email for test");

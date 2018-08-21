@@ -10,11 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class AbstractPage {
     protected WebDriver driver;
-    private static final int WAIT_FOR_ELEMENT_SEC = 15;
-
-    public AbstractPage(WebDriver driver) {
-        this.driver = driver;
-    }
+    private static final int WAIT_FOR_ELEMENT_SEC = 40;
 
     public void waitForElementVisibility(By locator){
         new WebDriverWait(driver, WAIT_FOR_ELEMENT_SEC)
